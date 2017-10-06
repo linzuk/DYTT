@@ -33,6 +33,7 @@ dependencies {
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.squareup.retrofit2:converter-scalars:2.0.0-beta4'
     compile 'com.google.code.gson:gson:2.7'
+    compile group: 'com.alibaba', name: 'fastjson', version: '1.2.39'
 
     compile 'junit:junit:4.12'
     testCompile 'junit:junit:4.12'

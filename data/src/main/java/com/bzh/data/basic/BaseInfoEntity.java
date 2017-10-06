@@ -15,40 +15,61 @@ import android.os.Parcelable;
  */
 public class BaseInfoEntity {
 
-    private String name;
-    private String url;
-    private String publishTime;
-
-    public String getPublishTime() {
-        return publishTime;
-    }
-
-    public void setPublishTime(String publishTime) {
-        this.publishTime = publishTime;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
+    private String id;
+    private String title;
+    private String image;
+    private String publishDate;
+    private String price;
 
     @Override
     public String toString() {
         return "BaseInfoEntity{" +
-                "name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", publishTime='" + publishTime + '\'' +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", image='" + image + '\'' +
+                ", publishDate='" + publishDate + '\'' +
+                ", price='" + price + '\'' +
                 '}';
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
 }

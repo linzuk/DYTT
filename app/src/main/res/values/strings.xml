@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">电影天堂</string>
+    <string name="app_name">AV天堂</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -8,4 +8,6 @@
     <string name="label_publish_time">发布时间：%1$s</string>
     <string name="un_ftpurl_label">尚未提供下载地址~稍后再试哦</string>
     <string name="un_install_xunlei_label">该影片链接为迅雷P2P资源，须安装迅雷下载工具才能进行下载！</string>
+
+    <string name="version">1.0</string>
 </resources>

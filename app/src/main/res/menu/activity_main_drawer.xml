@@ -3,37 +3,19 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_film"
-            android:icon="@drawable/ic_menu_film"
-            android:title="电影" />
-        <item
-            android:id="@+id/nav_tv"
-            android:icon="@drawable/ic_menu_tv"
-            android:title="电视" />
-        <item
-            android:id="@+id/nav_variety"
-            android:icon="@drawable/ic_menu_variety"
-            android:title="综艺" />
-        <item
-            android:id="@+id/nav_comic"
-            android:icon="@drawable/ic_menu_comic"
-            android:title="动漫" />
-        <item
-            android:id="@+id/nav_game"
-            android:icon="@drawable/ic_menu_game"
-            android:title="游戏" />
-        <item
-            android:id="@+id/nav_meizi"
-            android:icon="@drawable/ic_menu_meizi"
-            android:title="妹子" />
+            android:id="@+id/nav_copy"
+            android:icon="@drawable/ic_arrow_right"
+            android:title="点击复制app下载地址" />
     </group>
 
-    <item android:title="设置">
+    <item
+        android:id="@+id/nav_root"
+        android:title="在线商城">
         <menu>
             <item
-                android:id="@+id/nav_setting"
-                android:icon="@drawable/ic_menu_setting"
-                android:title="欢迎star和反馈" />
+                android:id="@+id/nav_buy"
+                android:icon="@drawable/ic_film"
+                android:title="购买观影券" />
         </menu>
     </item>
 

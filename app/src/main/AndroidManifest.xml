@@ -27,6 +27,8 @@
         </activity>
         <activity
             android:name=".base.basic.FragmentContainerActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data

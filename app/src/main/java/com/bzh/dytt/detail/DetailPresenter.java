@@ -2,11 +2,13 @@ package com.bzh.dytt.detail;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
+import com.bzh.common.utils.DeviceUtils;
+import com.bzh.common.utils.SPUtils;
 import com.bzh.data.film.DetailEntity;
 import com.bzh.data.repository.Repository;
-import com.bzh.dytt.ThunderHelper;
+import com.bzh.data.ticket.TicketValidateEntity;
 import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.basic.BaseFragment;
@@ -29,8 +31,9 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
 
 
     private final IDetailView filmDetailView;
-    private String url;
+    private String id;
     private DetailEntity detailEntity;
+    private TicketValidateEntity ticketValidateEntity;
 
     public DetailPresenter(BaseActivity baseActivity, BaseFragment baseFragment, IDetailView filmDetailView) {
         super(baseActivity, baseFragment, filmDetailView);
@@ -42,47 +45,63 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
         if (v.getId() == android.R.id.home) {
             getBaseActivity().finish();
         } else if (v.getId() == R.id.fab) {
-            if (detailEntity != null && detailEntity.getDownloadUrls().size() > 0) {
-                if (detailEntity.getDownloadUrls().size() == 1) {
-                    ThunderHelper.getInstance(getBaseActivity()).onClickDownload(v, detailEntity.getDownloadUrls().get(0));
-                } else {
-                    new MaterialDialog.Builder(getBaseActivity())
-                            .title("选择下载连接")
-                            .items(detailEntity.getDownloadNames())
-                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                    ThunderHelper.getInstance(getBaseActivity()).onClickDownload(v, detailEntity.getDownloadUrls().get(which));
-                                    return true;
-                                }
-                            })
-                            .positiveText("下载")
-                            .show();
-                }
-            }
+            // TODO 点击下载按钮处理逻辑
+            Toast.makeText(getBaseActivity(), "哎呀，别点了，点坏了要负责哦～", Toast.LENGTH_SHORT).show();
+//            if (detailEntity != null && detailEntity.getDownloadUrls().size() > 0) {
+//                if (detailEntity.getDownloadUrls().size() == 1) {
+//                    ThunderHelper.getInstance(getBaseActivity()).onClickDownload(v, detailEntity.getDownloadUrls().get(0));
+//                } else {
+//                    new MaterialDialog.Builder(getBaseActivity())
+//                            .title("选择下载连接")
+//                            .items(detailEntity.getDownloadNames())
+//                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+//                                @Override
+//                                public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+//                                    ThunderHelper.getInstance(getBaseActivity()).onClickDownload(v, detailEntity.getDownloadUrls().get(which));
+//                                    return true;
+//                                }
+//                            })
+//                            .positiveText("下载")
+//                            .show();
+//                }
+//            }
         }
     }
 
     @Override
     public void initFragmentConfig() {
         if (null != baseFragment.getArguments()) {
-            url = baseFragment.getArguments().getString(DetailFragment.FILM_URL);
-            if (!TextUtils.isEmpty(url)) {
-                FilmDetailTaskSubscriber taskSubscriber = new FilmDetailTaskSubscriber();
-                Repository.getInstance().getFilmDetail(url)
-                        .doOnSubscribe(taskSubscriber)
+            // 初始化电影详情数据
+            id = baseFragment.getArguments().getString(DetailFragment.FILM_ID);
+            if (!TextUtils.isEmpty(id)) {
+                FilmDetailTaskSubscriber detailTaskSubscriber = new FilmDetailTaskSubscriber();
+                Repository.getInstance().getFilmDetail(id)
+                        .doOnSubscribe(detailTaskSubscriber)
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(AndroidSchedulers.mainThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(taskSubscriber);
+                        .subscribe(detailTaskSubscriber);
             }
+
+            // 初始化电影券校验数据
+            validateTicket();
         }
         filmDetailView.initToolbar();
         filmDetailView.initFab();
     }
 
-    private class FilmDetailTaskSubscriber extends AbstractTaskSubscriber<DetailEntity> {
+    // 初始化电影券校验数据
+    public void validateTicket() {
+        TicketValidateTaskSubscriber ticketTaskSubscriber = new TicketValidateTaskSubscriber();
+        Repository.getInstance().validateTicket(SPUtils.getShareData("TICKET", ""), DeviceUtils.getUniqueId(getBaseActivity()))
+                .doOnSubscribe(ticketTaskSubscriber)
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(ticketTaskSubscriber);
+    }
 
+    private class FilmDetailTaskSubscriber extends AbstractTaskSubscriber<DetailEntity> {
         @Override
         public void onSuccess(DetailEntity detailEntity) {
             super.onSuccess(detailEntity);
@@ -91,7 +110,20 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
         }
     }
 
+    private class TicketValidateTaskSubscriber extends AbstractTaskSubscriber<TicketValidateEntity> {
+        @Override
+        public void onSuccess(TicketValidateEntity ticketValidateEntity) {
+            super.onSuccess(ticketValidateEntity);
+            DetailPresenter.this.ticketValidateEntity = ticketValidateEntity;
+            updateTicketValidateStatus();
+        }
+    }
+
     private void updateFileDetailStatus() {
         filmDetailView.setFilmDetail(detailEntity);
+    }
+
+    private void updateTicketValidateStatus() {
+        filmDetailView.setTicketValidateEntity(ticketValidateEntity);
     }
 }

@@ -3,8 +3,6 @@ package com.bzh.dytt.main;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.DrawerLayout;
@@ -15,26 +13,16 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bzh.data.basic.MeiZiEntity;
-import com.bzh.data.meizi.FastBlurUtil;
-import com.bzh.data.repository.Repository;
 import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.widget.XViewPager;
-import com.bzh.log.MyLog;
-
-import java.util.ArrayList;
 
 import butterknife.Bind;
 import de.hdodenhof.circleimageview.CircleImageView;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
-public class MainActivity extends BaseActivity
-        implements MainIView {
+public class MainActivity extends BaseActivity implements MainIView {
 
     MainPresenter mainA;
 
@@ -66,29 +54,12 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void setHeaderViewBackground(String url) {
-        if (iv_header_view_background != null) {
-            Glide.with(this)
-                    .load(url)
-                    .asBitmap()
-                    .placeholder(R.drawable.ic_placeholder)
-                    .into(new BitmapImageViewTarget(iv_header_view_background) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            int scaleRatio = 10;
-                            Bitmap scaledBitmap = Bitmap.createScaledBitmap(resource,
-                                    resource.getWidth() / scaleRatio,
-                                    resource.getHeight() / scaleRatio,
-                                    false);
-                            Bitmap blurBitmap = FastBlurUtil.doBlur(scaledBitmap, 8, true);
-                            iv_header_view_background.setImageBitmap(blurBitmap);
-                        }
-                    });
-        }
+
     }
 
     @Override
     public void setHeadView(String url) {
-        if (iv_head != null)
+        if (iv_head != null) {
             Glide.with(this)
                     .load(url)
                     .asBitmap()
@@ -100,6 +71,7 @@ public class MainActivity extends BaseActivity
                             iv_head.setImageBitmap(resource);
                         }
                     });
+        }
     }
 
     @Override
@@ -109,6 +81,9 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onBackPressed() {
+        if (JCVideoPlayer.backPress()) {
+            return;
+        }
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

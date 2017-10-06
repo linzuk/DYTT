@@ -1,22 +1,26 @@
 package com.bzh.dytt.detail;
 
-import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bzh.common.utils.UIUtils;
+import com.bzh.common.utils.SPUtils;
 import com.bzh.data.film.DetailEntity;
+import com.bzh.data.ticket.TicketValidateEntity;
 import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.basic.FragmentArgs;
@@ -24,16 +28,21 @@ import com.bzh.dytt.base.basic.FragmentContainerActivity;
 import com.bzh.dytt.base.basic_pageswitch.PageFragment;
 import com.bzh.dytt.base.basic_pageswitch.PagePresenter;
 
+import org.jsoup.helper.StringUtil;
+
+import java.util.Date;
+
 import butterknife.Bind;
 import butterknife.OnClick;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 public class DetailFragment extends PageFragment implements IDetailView {
 
-    public static final String FILM_URL = "FILM_URL";
+    public static final String FILM_ID = "FILM_ID";
 
-    public static void launch(BaseActivity from, String url) {
+    public static void launch(BaseActivity from, String id) {
         FragmentArgs fragmentArgs = new FragmentArgs();
-        fragmentArgs.add(FILM_URL, url);
+        fragmentArgs.add(FILM_ID, id);
         FragmentContainerActivity.launch(from, DetailFragment.class, fragmentArgs);
     }
 
@@ -52,131 +61,45 @@ public class DetailFragment extends PageFragment implements IDetailView {
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
 
-    // 片名
-    @Bind(R.id.layout_name)
-    LinearLayout layout_name;
-    @Bind(R.id.name)
-    TextView name;
+    // 内容
+    @Bind(R.id.film_detail_content)
+    TextView film_detail_content;
 
-    // 译名
-    @Bind(R.id.layout_translationName)
-    LinearLayout layout_translationName;
-    @Bind(R.id.translationName)
-    TextView translationName;
+    // 视频播放器
+    @Bind(R.id.film_detail_film)
+    JCVideoPlayerStandard film_detail_film;
 
-    // 年代
-    @Bind(R.id.layout_years)
-    LinearLayout layout_years;
-    @Bind(R.id.years)
-    TextView years;
+    // 输入电影票控件
+    @Bind(R.id.input_ticket_layout)
+    LinearLayout input_ticket_layout;
+    @Bind(R.id.tv_ticket_tip)
+    TextView tv_ticket_tip;
+    @Bind(R.id.tv_ticket_goto_buy)
+    TextView tv_ticket_goto_buy;
+    @Bind(R.id.et_ticket)
+    EditText et_ticket;
+    @Bind(R.id.iv_film_preview)
+    ImageView iv_film_preview;
 
-    // 国家
-    @Bind(R.id.layout_country)
-    LinearLayout layout_country;
-    @Bind(R.id.country)
-    TextView country;
+    // 隐藏观影券图层
+    private void hideInputTicketLayout() {
+        input_ticket_layout.setVisibility(View.GONE);
+    }
 
-    // 类型
-    @Bind(R.id.layout_category)
-    LinearLayout layout_category;
-    @Bind(R.id.category)
-    TextView category;
+    // 显示视频图层
+    private void showInputTicketLayout() {
+        input_ticket_layout.setVisibility(View.VISIBLE);
+    }
 
-    // 语言
-    @Bind(R.id.layout_language)
-    LinearLayout layout_language;
-    @Bind(R.id.language)
-    TextView language;
+    // 隐藏视频图层
+    private void hideVideoLayout() {
+        film_detail_film.setVisibility(View.GONE);
+    }
 
-    // 字幕
-    @Bind(R.id.layout_subtitle)
-    LinearLayout layout_subtitle;
-    @Bind(R.id.subtitle)
-    TextView subtitle;
-
-    // 字幕
-    @Bind(R.id.layout_showTime)
-    LinearLayout layout_showTime;
-    @Bind(R.id.showTime)
-    TextView showTime;
-
-    // 集数
-    @Bind(R.id.layout_episodeNumber)
-    LinearLayout layout_episodeNumber;
-    @Bind(R.id.episodeNumber)
-    TextView episodeNumber;
-
-    // 来源
-    @Bind(R.id.layout_source)
-    LinearLayout layout_source;
-    @Bind(R.id.source)
-    TextView source;
-
-    // IMDB评分
-    @Bind(R.id.layout_imdb)
-    LinearLayout layout_imdb;
-    @Bind(R.id.imdb)
-    TextView imdb;
-
-    // 发布时间
-    @Bind(R.id.layout_publishTime)
-    LinearLayout layout_publishTime;
-    @Bind(R.id.publishTime)
-    TextView publishTime;
-
-    // 上映时间
-    @Bind(R.id.layout_playtime)
-    LinearLayout layout_playtime;
-    @Bind(R.id.playtime)
-    TextView playtime;
-
-    // 视频格式
-    @Bind(R.id.layout_fileFormat)
-    LinearLayout layout_fileFormat;
-    @Bind(R.id.fileFormat)
-    TextView fileFormat;
-
-    // 视频尺寸
-    @Bind(R.id.layout_videoSize)
-    LinearLayout layout_videoSize;
-    @Bind(R.id.videoSize)
-    TextView videoSize;
-
-    // 文件大小
-    @Bind(R.id.layout_fileSize)
-    LinearLayout layout_fileSize;
-    @Bind(R.id.fileSize)
-    TextView fileSize;
-
-    // 导演
-    @Bind(R.id.layout_director)
-    LinearLayout layout_director;
-    @Bind(R.id.director)
-    TextView director;
-
-    // 编辑
-    @Bind(R.id.layout_screenWriters)
-    LinearLayout layout_screenWriters;
-    @Bind(R.id.screenWriters)
-    TextView screenWriters;
-
-    // 主演
-    @Bind(R.id.layout_leadingPlayers)
-    LinearLayout layout_leadingPlayers;
-    @Bind(R.id.leadingPlayers)
-    TextView leadingPlayers;
-
-    // 描述
-    @Bind(R.id.layout_description)
-    LinearLayout layout_description;
-    @Bind(R.id.description)
-    TextView description;
-
-    // 预览
-    @Bind(R.id.layout_previewImage)
-    LinearLayout layout_previewImage;
-    @Bind(R.id.previewImage)
-    ImageView previewImage;
+    // 显示视频图层
+    private void showVideoLayout() {
+        film_detail_film.setVisibility(View.VISIBLE);
+    }
 
     private DetailPresenter detailPresenter;
 
@@ -196,71 +119,54 @@ public class DetailFragment extends PageFragment implements IDetailView {
         layout.setVisibility(TextUtils.isEmpty(str) ? View.GONE : View.VISIBLE);
     }
 
+    /**
+     * 点击确定后执行
+     */
+    @OnClick(R.id.btn_ticket_ok)
+    public void onClickBtnTicketOk(View v) {
+        String ticket = et_ticket.getText().toString();
+        if (!StringUtil.isBlank(ticket)) {
+            SPUtils.putShareData("TICKET", ticket);
+            detailPresenter.validateTicket();
+        }
+    }
+
     @Override
     public void setFilmDetail(DetailEntity detailEntity) {
-        collapsingToolbar.setTitle(detailEntity.getTranslationName());
-
-        setText(name, layout_name, detailEntity.getName());                  // 1. 名字
-        setText(translationName, layout_translationName, detailEntity.getTitle());     // 2. 译名
-        setText(years, layout_years, detailEntity.getYears());                // 3. 年代
-        setText(country, layout_country, detailEntity.getCountry());            // 4. 国家
-        setText(category, layout_category, detailEntity.getCategory());          // 5．类型
-        setText(language, layout_language, detailEntity.getLanguage());          // 6. 语言
-        setText(showTime, layout_showTime, detailEntity.getShowTime());          // 7. 片长
-        setText(publishTime, layout_publishTime, detailEntity.getPublishTime());    // 8. 发布时间
-        setText(playtime, layout_playtime, detailEntity.getPlaytime());          // 9. 上映时间
-        setText(subtitle, layout_subtitle, detailEntity.getSubtitle());          // 10. 字母
-        setText(fileFormat, layout_fileFormat, detailEntity.getFileFormat());      // 11. 文件格式
-        setText(videoSize, layout_videoSize, detailEntity.getVideoSize());        // 12.　视频尺寸
-        setText(fileSize, layout_fileSize, detailEntity.getFileSize());        // 12.　文件大小
-        setText(imdb, layout_imdb, detailEntity.getImdb());                  // 13. 评分
-        setText(episodeNumber, layout_episodeNumber, detailEntity.getEpisodeNumber());// 14 集数
-        setText(source, layout_source, detailEntity.getSource());               // 15. 来源
-        if (detailEntity.getDirectors() != null && detailEntity.getDirectors().size() > 0) {
-            setText(director, layout_director, detailEntity.getDirectors().get(0));// 16. 导演
-        }else {
-            layout_director.setVisibility(View.GONE);
-        }
-        if (detailEntity.getScreenWriters() != null && detailEntity.getScreenWriters().size() > 0) {
-            setText(screenWriters, layout_screenWriters, detailEntity.getScreenWriters().get(0));// 17. 编辑
-        }else {
-            layout_screenWriters.setVisibility(View.GONE);
-        }
-        if (detailEntity.getLeadingPlayers() != null && detailEntity.getLeadingPlayers().size() > 0) {
-            setText(leadingPlayers, layout_leadingPlayers, detailEntity.getLeadingPlayers().get(0));// 18. 主演
-        }else {
-            layout_leadingPlayers.setVisibility(View.GONE);
-        }
-
-        setText(description, layout_description, detailEntity.getDescription());// 19. 描述
+        // TODO 设置电影详情页面数据
+        collapsingToolbar.setTitle(detailEntity.getTitle());
+        film_detail_content.setText(detailEntity.getContent());
 
         Glide.with(this)
-                .load(detailEntity.getCoverUrl())
+                .load(detailEntity.getCover())
                 .into(filmPoster);
 
-        if (TextUtils.isEmpty(detailEntity.getPreviewImage())) {
-            layout_previewImage.setVisibility(View.GONE);
+        film_detail_film.setUp(detailEntity.getVideo(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getTitle());
+        film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImage()));
+
+        Glide.with(this)
+                .load(detailEntity.getImage())
+                .into(iv_film_preview);
+    }
+
+    @Override
+    public void setTicketValidateEntity(TicketValidateEntity ticketValidateEntity) {
+        // TODO 设置页面是否已经支付的效果
+        Log.i("TAG", JSON.toJSONString(ticketValidateEntity));
+        if (ticketValidateEntity.getTicketOk()) {
+            hideInputTicketLayout(); // 隐藏观影券图层
+            showVideoLayout();
         } else {
-            layout_previewImage.setVisibility(View.VISIBLE);
-            Glide.with(this)
-                    .load(detailEntity.getPreviewImage())
-                    .asBitmap()
-                    .into(new BitmapImageViewTarget(previewImage) {
-                        @Override
-                        protected void setResource(Bitmap resource) {
-                            super.setResource(resource);
-                            int width = resource.getWidth();
-                            int height = resource.getHeight();
-                            float ratio = width * 1.0F / height;
-                            float targetHeight = UIUtils.getScreenWidth() * 1.0F / ratio;
-
-                            ViewGroup.LayoutParams params = previewImage.getLayoutParams();
-                            params.height = (int) targetHeight;
-                            previewImage.setLayoutParams(params);
-
-                            previewImage.setImageBitmap(resource);
-                        }
-                    });
+            hideVideoLayout(); // 隐藏视频图层
+            showInputTicketLayout();
+            Date expireTime = ticketValidateEntity.getExpireTime();
+            if (null == expireTime) {
+                tv_ticket_tip.setText("您尚未购买观影券");
+            } else {
+                tv_ticket_tip.setText("您的观影券已经过期");
+            }
+            tv_ticket_goto_buy.setText(Html.fromHtml("<div>请输入观影券，没有观影券点击<a href='"+SPUtils.getShareData("shop_url")+"'>[前往购买]</a></div>"));
+            tv_ticket_goto_buy.setMovementMethod(LinkMovementMethod.getInstance());
         }
     }
 

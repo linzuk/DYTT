@@ -88,4 +88,7 @@ dependencies {
     }
 
     compile 'com.umeng.analytics:analytics:latest.integration'
+
+
+    compile 'fm.jiecao:jiecaovideoplayer:5.8.1'
 }

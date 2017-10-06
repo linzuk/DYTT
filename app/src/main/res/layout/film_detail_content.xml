@@ -9,497 +9,86 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/card_margin"
-        app:cardCornerRadius="5dp">
+        app:cardCornerRadius="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="6dp">
-
+            android:orientation="vertical">
             <LinearLayout
-                android:id="@+id/layout_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="片名："
-                    style="@style/Detail_Title" />
+                <!-- 视频 -->
+                <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+                    android:id="@+id/film_detail_film"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"/>
 
-                <TextView
-                    android:id="@+id/name"
+                <!-- 观影券 -->
+                <LinearLayout
+                    android:id="@+id/input_ticket_layout"
+                    android:orientation="vertical"
+                    android:background="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:text=""
-                    style="@style/Detail_Content_1"
-                     />
+                    android:gravity="center">
+                    <FrameLayout
+                        android:id="@+id/film_preview_layout"
+                        android:layout_width="match_parent"
+                        android:layout_height="200dp"
+                        android:background="#000">
+                        <ImageView
+                            android:id="@+id/iv_film_preview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical"/>
+                    </FrameLayout>
+                    <TextView
+                        android:id="@+id/tv_ticket_tip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"/>
+                    <TextView
+                        android:id="@+id/tv_ticket_goto_buy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="请输入观影券，没有观影券点击[前往购买]"/>
+                    <EditText
+                        android:id="@+id/et_ticket"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:maxLength="6"
+                        android:gravity="center"
+                        android:hint="请输入观影券号码"/>
+                    <Button
+                        android:id="@+id/btn_ticket_ok"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="确定"/>
+
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_translationName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="译名："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/translationName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/layout_years"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="年代："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/years"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_country"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="国家："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/country"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/layout_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="类型："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/category"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_language"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="语言："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/language"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="字幕："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/subtitle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/layout_showTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="片长："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/showTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_episodeNumber"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="集数："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/episodeNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="来源："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/source"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_imdb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="IMDB评分："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/imdb"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_publishTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="发布时间："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/publishTime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_playtime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="上映时间："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/playtime"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:id="@+id/layout_fileFormat"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="文件格式："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/fileFormat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_videoSize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="视频尺寸："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/videoSize"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_fileSize"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="文件大小："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/fileSize"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_director"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="导演："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/director"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_screenWriters"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="编辑："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/screenWriters"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_leadingPlayers"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="主演："
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/leadingPlayers"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text=""
-                    style="@style/Detail_Content_1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="简介： "
-                    style="@style/Detail_Title"  />
-
-                <TextView
-                    android:id="@+id/description"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:paddingBottom="3dp"
-                    android:text=""
-                    style="@style/Detail_Content_2" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/layout_previewImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:padding="6dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="预览： "
-                    style="@style/Detail_Title"  />
-
-                <ImageView
-                    android:id="@+id/previewImage"
+                    android:id="@+id/film_detail_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:text="内容介绍"/>
+
             </LinearLayout>
         </LinearLayout>
 

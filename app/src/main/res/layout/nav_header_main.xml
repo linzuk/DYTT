@@ -37,15 +37,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            android:text="别志华"
+            android:text="AV天堂"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@android:color/black" />
+            android:textColor="#fff" />
 
         <TextView
             android:id="@+id/tv_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="github.com/biezhihua"
-            android:textColor="@android:color/black" />
+            android:text="我需要安慰！"
+            android:textColor="#fff" />
+        <TextView
+            android:id="@+id/tv_av"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="8dp"
+            android:text="Fucking man, I need AV!"
+            android:textColor="#fff" />
     </LinearLayout>
 </RelativeLayout>

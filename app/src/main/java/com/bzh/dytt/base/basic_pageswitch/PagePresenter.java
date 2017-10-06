@@ -10,7 +10,6 @@ import com.bzh.dytt.base.basic.IFragmentPresenter;
 import com.bzh.dytt.base.rx.TaskSubscriber;
 
 import java.io.Serializable;
-import java.lang.ref.WeakReference;
 
 import rx.Subscriber;
 import rx.functions.Action0;

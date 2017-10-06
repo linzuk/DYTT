@@ -3,12 +3,9 @@ package com.bzh.data.film;
 import android.support.annotation.IntRange;
 
 import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
 import retrofit2.http.Headers;
-import retrofit2.http.Path;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -23,28 +20,23 @@ import rx.Observable;
  */
 public interface IFilmService {
 
+    // 获取电影列表
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
-    @GET("/html/gndy/dyzz/list_23_{index}.html")
-    Observable<Response<ResponseBody>> getTest(@Path("index") @IntRange(from = 1, to = 131) int index);
-
-
-    // 获取最新电影
-    @GET("/html/gndy/dyzz/list_23_{index}.html")
-    Observable<ResponseBody> getNewest(@Path("index") @IntRange(from = 1, to = 131) int index);
-
-    // 国内电影
-    @GET("/html/gndy/china/list_4_{index}.html")
-    Observable<ResponseBody> getDomestic(@Path("index") @IntRange(from = 1, to = 87) int index);
-
-    // 欧美电影
-    @GET("/html/gndy/oumei/list_7_{index}.html")
-    Observable<ResponseBody> getEuropeAmerica(@Path("index") @IntRange(from = 1, to = 147) int index);
-
-    // 日韩电影
-    @GET("/html/gndy/rihan/list_6_{index}.html")
-    Observable<ResponseBody> getJapanSouthKorea(@Path("index") @IntRange(from = 1, to = 25) int index);
+    @GET("/api/vc/listVideo")
+    Observable<ResponseBody> getFilmList(@Query("pi") @IntRange(from = 1, to = 2147483647) int pi, @Query("type") String type);
 
     // 获取电影详情
-    @GET("{filmDetailUrl}")
-    Observable<ResponseBody> getFilmDetail(@Path("filmDetailUrl") String filmDetailUrl);
+    @Headers("Cache-Control:public, max-age=30, max-stale=10")
+    @GET("/api/vc/getVideo")
+    Observable<ResponseBody> getFilmDetail(@Query("id") String filmId);
+
+    // 验证电影券能不能用
+    @Headers("Cache-Control:public, max-age=30, max-stale=10")
+    @GET("/api/vc/validateTicket")
+    Observable<ResponseBody> validateTicket(@Query("ticket") String ticket, @Query("device_id") String deviceId);
+
+    // 获取配置信息
+    @Headers("Cache-Control:public, max-age=30, max-stale=10")
+    @GET("/api/vc/getConfig")
+    Observable<ResponseBody> getConfig();
 }

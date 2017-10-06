@@ -1,8 +1,14 @@
 package com.bzh.dytt.film;
 
+import android.graphics.Bitmap;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bzh.common.utils.UIUtils;
 import com.bzh.data.basic.BaseInfoEntity;
 import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
@@ -37,8 +43,28 @@ public abstract class BaseFilmInfoPresenter extends RefreshRecyclerPresenter<Bas
         return new ExCommonAdapter<BaseInfoEntity>(getBaseActivity(), R.layout.item_film) {
             @Override
             protected void convert(ExViewHolder viewHolder, BaseInfoEntity item) {
-                viewHolder.setText(R.id.tv_film_name, item.getName());
-                viewHolder.setText(R.id.tv_film_publish_time, getBaseActivity().getResources().getString(R.string.label_publish_time, item.getPublishTime()));
+                // TODO 列表页面填充数据
+                viewHolder.setText(R.id.tv_film_name, item.getTitle());
+                viewHolder.setText(R.id.tv_film_publish_time, item.getPublishDate());
+                final ImageView imageView = viewHolder.getView(R.id.img_file_image);
+                Glide.with(getContext())
+                        .load(item.getImage())
+                        .asBitmap()
+                        .into(new BitmapImageViewTarget(imageView) {
+                            @Override
+                            protected void setResource(Bitmap resource) {
+                                super.setResource(resource);
+//                                int width = resource.getWidth();
+//                                int height = resource.getHeight();
+//                                float ratio = width * 1.0F / height;
+//                                float targetHeight = UIUtils.getScreenWidth() * 1.0F / ratio;
+
+//                                ViewGroup.LayoutParams params = imageView.getLayoutParams();
+//                                params.height = (int) targetHeight;
+//                                imageView.setLayoutParams(params);
+                                imageView.setImageBitmap(resource);
+                            }
+                        });
             }
         };
     }
@@ -47,6 +73,6 @@ public abstract class BaseFilmInfoPresenter extends RefreshRecyclerPresenter<Bas
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
         BaseInfoEntity baseInfoEntity = getCommonAdapter().getData().get(position);
-        DetailFragment.launch(getBaseActivity(), baseInfoEntity.getUrl());
+        DetailFragment.launch(getBaseActivity(), baseInfoEntity.getId());
     }
 }

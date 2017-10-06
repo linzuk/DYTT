@@ -4,8 +4,11 @@ import android.support.annotation.IntRange;
 
 import com.bzh.data.basic.BaseInfoEntity;
 import com.bzh.data.basic.DataStoreController;
+import com.bzh.data.ticket.TicketValidateEntity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 
@@ -28,31 +31,41 @@ public class FilmNetWorkDataStore implements IFilmDataStore {
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 87) int index) {
+    public Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 2147483647) int pi) {
         return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getDomestic(index));
+                .getFilmList(pi, "domestic"));
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getNewest(@IntRange(from = 1, to = 131) final int index) {
+    public Observable<ArrayList<BaseInfoEntity>> getNewest(@IntRange(from = 1, to = 2147483647) final int pi) {
         return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getNewest(index));
+                .getFilmList(pi, "newest"));
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getEuropeAmerica(@IntRange(from = 1, to = 147) int index) {
+    public Observable<ArrayList<BaseInfoEntity>> getEuropeAmerica(@IntRange(from = 1, to = 2147483647) int pi) {
         return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getEuropeAmerica(index));
+                .getFilmList(pi, "europe"));
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 25) int index) {
+    public Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 2147483647) int pi) {
         return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getJapanSouthKorea(index));
+                .getFilmList(pi, "japan"));
     }
 
     @Override
-    public Observable<DetailEntity> getFilmDetail(final String filmStr) {
-        return DataStoreController.getInstance().getNewWorkDetailObservable(iFilmService.getFilmDetail(filmStr));
+    public Observable<DetailEntity> getFilmDetail(final String filmId) {
+        return DataStoreController.getInstance().getNewWorkDetailObservable(iFilmService.getFilmDetail(filmId));
+    }
+
+    @Override
+    public Observable<TicketValidateEntity> validateTicket(final String ticket, final String deviceId) {
+        return DataStoreController.getInstance().validateTicketObservable(iFilmService.validateTicket(ticket, deviceId));
+    }
+
+    @Override
+    public Observable<Map<String, String>> getConfig() {
+        return DataStoreController.getInstance().getConfigObservable(iFilmService.getConfig());
     }
 }

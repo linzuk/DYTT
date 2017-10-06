@@ -7,27 +7,29 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="100dp"
         android:background="?android:attr/selectableItemBackground"
         android:orientation="vertical"
-        android:paddingBottom="8dp"
-        android:paddingTop="8dp">
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/img_file_image"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_film"
-            android:layout_marginLeft="16dp" />
+            android:layout_marginLeft="10dp" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="72dp"
-            android:layout_marginRight="16dp"
-            android:orientation="vertical">
+            android:layout_toEndOf="@+id/img_file_image">
 
             <TextView
                 android:id="@+id/tv_film_name"
@@ -48,12 +50,12 @@
                 tools:text="biezhihua" />
         </LinearLayout>
 
-        <ImageView
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="16dp"
-            android:src="@drawable/ic_arrow_right" />
+        <!--<ImageView-->
+            <!--android:layout_width="20dp"-->
+            <!--android:layout_height="20dp"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:src="@drawable/ic_arrow_right" />-->
     </RelativeLayout>
 </FrameLayout>

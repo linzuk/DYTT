@@ -3,8 +3,11 @@ package com.bzh.data.film;
 import android.support.annotation.IntRange;
 
 import com.bzh.data.basic.BaseInfoEntity;
+import com.bzh.data.ticket.TicketValidateEntity;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 
@@ -20,13 +23,17 @@ import rx.Observable;
  */
 public interface IFilmDataStore {
 
-    Observable<ArrayList<BaseInfoEntity>> getNewest(@IntRange(from = 1, to = 131) final int index);
+    Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 2147483647) int pi);
 
-    Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 87) final int index);
+    Observable<ArrayList<BaseInfoEntity>> getNewest(@IntRange(from = 1, to = 2147483647) final int pi);
 
-    Observable<ArrayList<BaseInfoEntity>> getEuropeAmerica(@IntRange(from = 1, to = 147) final int index);
+    Observable<ArrayList<BaseInfoEntity>> getEuropeAmerica(@IntRange(from = 1, to = 2147483647) int pi);
 
-    Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 25) final int index);
+    Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 2147483647) int pi);
 
     Observable<DetailEntity> getFilmDetail(final String filmStr);
+
+    Observable<TicketValidateEntity> validateTicket(final String ticket, final String deviceId);
+
+    Observable<Map<String, String>> getConfig();
 }

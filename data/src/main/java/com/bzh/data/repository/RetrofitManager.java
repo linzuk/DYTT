@@ -4,14 +4,27 @@ import android.content.Context;
 
 import com.bzh.common.context.GlobalContext;
 import com.bzh.data.film.IFilmService;
-import com.bzh.data.comic.IComicService;
-import com.bzh.data.game.IGameService;
-import com.bzh.data.meizi.IMeiZiService;
-import com.bzh.data.tv.ITvService;
-import com.bzh.data.variety.IVarietyService;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+import java.io.BufferedReader;
 import java.io.File;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import okhttp3.Cache;
 import okhttp3.OkHttpClient;
@@ -31,14 +44,12 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
  */
 public class RetrofitManager {
 
-    private final IComicService comicService;
     private final IFilmService filmService;
-    private final IGameService gameService;
-    private final ITvService tvService;
-    private final IVarietyService varietyService;
-
     private static RetrofitManager retrofitManager;
-    private final IMeiZiService iMeiZiService;
+
+    private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+
+    private static String baseUrl;
 
     private RetrofitManager(Context context) {
 
@@ -57,29 +68,33 @@ public class RetrofitManager {
 //                .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 
+        Future<String> future = EXECUTOR.submit(new Callable<String>() {
+            @Override
+            public String call() throws Exception {
+                Document doc = Jsoup.connect("http://www.jianshu.com/users/4fb989f0f0dd/timeline")
+                        .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+                        .get();
+                Element div = doc.body().getElementsByClass("js-intro").get(0);
+                Element a = div.getElementsByTag("a").get(0);
+                return a.text().trim();
+            }
+        });
+        try {
+            baseUrl = future.get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            baseUrl = "http://43.225.159.245:9000";
+        }
+
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://www.ygdy8.net")
+                .baseUrl(baseUrl)
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
                 .build();
 
 
-        Retrofit meiZiRetrofit = new Retrofit.Builder()
-                .baseUrl("http://www.mzitu.com")
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient)
-                .build();
-
-
-        comicService = retrofit.create(IComicService.class);
         filmService = retrofit.create(IFilmService.class);
-        gameService = retrofit.create(IGameService.class);
-        tvService = retrofit.create(ITvService.class);
-        varietyService = retrofit.create(IVarietyService.class);
-
-        iMeiZiService = meiZiRetrofit.create(IMeiZiService.class);
     }
 
     public static RetrofitManager getInstance() {
@@ -100,29 +115,8 @@ public class RetrofitManager {
         return tmp;
     }
 
-    public IComicService getComicService() {
-        return comicService;
-    }
-
     public IFilmService getFilmService() {
         return filmService;
     }
 
-    public IGameService getGameService() {
-        return gameService;
-    }
-
-    public ITvService getTvService() {
-        return tvService;
-    }
-
-    public IVarietyService getVarietyService() {
-        return varietyService;
-    }
-
-    public IMeiZiService getiMeiZiService() {
-        return iMeiZiService;
-    }
 }
-
-

@@ -221,6 +221,7 @@ public abstract class RefreshRecyclerPresenter<Entity, Entities>
      * Update the page some state when the configuration changed.
      */
     public void onRefreshConfigChanged(RefreshConfig refreshConfig) {
+        // TODO 更新加载界面状态
         iView.footerVisibility(isRefreshing());
         iView.layLoadingVisibility(refreshConfig.canLoadMore);
         iView.btnLoadMoreVisibility(!refreshConfig.canLoadMore);
@@ -239,7 +240,7 @@ public abstract class RefreshRecyclerPresenter<Entity, Entities>
     ///////////////////////////////////////////////////////////////////////////
     // Inner class
     public static class RefreshConfig implements Serializable {
-        public boolean canLoadMore = true; // initial value must be true;
+        public boolean canLoadMore = false; // initial value must be true;
     }
 
     public class DefaultTaskSubscriber extends AbstractTaskSubscriber<Entities> {
@@ -272,23 +273,7 @@ public abstract class RefreshRecyclerPresenter<Entity, Entities>
                 paging.processData();
             }
 
-            // process canLoadMOre
-            if (requestMode == REQUEST_MODE_DATA_FIRST) {
-                refreshConfig.canLoadMore = true;
-            }
-
-            try {
-                if (null != paging) {
-                    if (isNotCanLoadMore(paging)) {
-                        refreshConfig.canLoadMore = false;
-                    } else {
-                        refreshConfig.canLoadMore = true;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                refreshConfig.canLoadMore = false;
-            }
+            refreshConfig.canLoadMore = resultList.size() > 0;
 
             onRefreshConfigChanged(refreshConfig);
         }
@@ -296,10 +281,6 @@ public abstract class RefreshRecyclerPresenter<Entity, Entities>
         public boolean resultIsEmpty(Entities entities) {
             return entities == null;
         }
-    }
-
-    public boolean isNotCanLoadMore(IPaging paging) {
-        return Integer.valueOf(paging.getNextPage()) > Integer.valueOf(paging.getMaxPage());
     }
 
     public class DefaultPaging implements IPaging {
