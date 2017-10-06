@@ -62,38 +62,9 @@ public class SystemUtils {
         return NETWORK_TYPE_NONE;
     }
 
-    /**
-     * mac地址
-     */
-    public static String getMacAddress() {
-        WifiManager wifiManager = (WifiManager) GlobalContext.getInstance().getSystemService(Context.WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        if (wifiInfo != null && wifiInfo.getMacAddress() != null)
-            return wifiInfo.getMacAddress().replace(":", "");
-        else
-            return "0022f420d03f";// 00117f29d23a
-    }
-
-    public static String getUDPIP() {
-        Context context = GlobalContext.getInstance();
-
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        DhcpInfo dhcpInfo = wifi.getDhcpInfo();
-        int IpAddress = dhcpInfo.ipAddress;
-        int subMask = dhcpInfo.netmask;
-        return transformIp((~subMask) | IpAddress);
-    }
-
     private static String transformIp(int i) {
         return (i & 0xFF) + "." + ((i >> 8) & 0xFF) + "." + ((i >> 16) & 0xFF)
                 + "." + (i >> 24 & 0xFF);
-    }
-
-    public static String getIP() {
-        Context context = GlobalContext.getInstance();
-
-        WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-        return transformIp(wifi.getConnectionInfo().getIpAddress());
     }
 
     public static String getVersionName(Context context) {

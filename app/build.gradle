@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 5
-        versionName "4.1-beta.1"
+        versionName "18.10.7"
         multiDexEnabled true
 
         // 多渠道
@@ -38,7 +38,7 @@ android {
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = "DYTT_${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+                def fileName = "AVTT_${defaultConfig.versionName}_${releaseTime()}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
