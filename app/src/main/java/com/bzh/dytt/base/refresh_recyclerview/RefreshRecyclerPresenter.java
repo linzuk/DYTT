@@ -240,7 +240,7 @@ public abstract class RefreshRecyclerPresenter<Entity, Entities>
     ///////////////////////////////////////////////////////////////////////////
     // Inner class
     public static class RefreshConfig implements Serializable {
-        public boolean canLoadMore = false; // initial value must be true;
+        public boolean canLoadMore = true; // initial value must be true;
     }
 
     public class DefaultTaskSubscriber extends AbstractTaskSubscriber<Entities> {

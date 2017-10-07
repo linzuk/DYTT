@@ -46,6 +46,24 @@ public abstract class BaseFilmInfoPresenter extends RefreshRecyclerPresenter<Bas
                 // TODO 列表页面填充数据
                 viewHolder.setText(R.id.tv_film_name, item.getTitle());
                 viewHolder.setText(R.id.tv_film_publish_time, item.getPublishDate());
+                ImageView tag1 = viewHolder.getView(R.id.iv_item_tag1);
+                ImageView tag2 = viewHolder.getView(R.id.iv_item_tag2);
+
+                tag1.setVisibility(View.GONE);
+                tag2.setVisibility(View.GONE);
+
+                if (item.getHot()) { // 热门
+                    tag2.setImageResource(R.mipmap.ic_hot);
+                    tag2.setVisibility(View.VISIBLE);
+                }
+                if (item.getFree()) { // 免费
+                    ImageView tag = (item.getHot() ? tag1 : tag2);
+                    tag.setImageResource(R.mipmap.ic_free);
+                    tag.setVisibility(View.VISIBLE);
+                } else { // VIP
+
+                }
+
                 final ImageView imageView = viewHolder.getView(R.id.img_file_image);
                 Glide.with(getContext())
                         .load(item.getImage())

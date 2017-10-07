@@ -16,10 +16,14 @@ public class DetailEntity {
     private String title;
     private String content;
     private String image;
-    private String video;
-    private String publishDate;
-    private String price;
     private String cover;
+    private String preview;
+    private String video;
+    private String type;
+    private Boolean hot;
+    private Boolean free;
+    private Boolean show;
+    private String publishDate;
 
     public String getId() {
         return id;
@@ -33,16 +37,16 @@ public class DetailEntity {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getContent() {
         return content;
     }
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getImage() {
@@ -53,6 +57,22 @@ public class DetailEntity {
         this.image = image;
     }
 
+    public String getCover() {
+        return cover;
+    }
+
+    public void setCover(String cover) {
+        this.cover = cover;
+    }
+
+    public String getPreview() {
+        return preview;
+    }
+
+    public void setPreview(String preview) {
+        this.preview = preview;
+    }
+
     public String getVideo() {
         return video;
     }
@@ -61,27 +81,43 @@ public class DetailEntity {
         this.video = video;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Boolean getHot() {
+        return hot;
+    }
+
+    public void setHot(Boolean hot) {
+        this.hot = hot;
+    }
+
+    public Boolean getFree() {
+        return free;
+    }
+
+    public void setFree(Boolean free) {
+        this.free = free;
+    }
+
+    public Boolean getShow() {
+        return show;
+    }
+
+    public void setShow(Boolean show) {
+        this.show = show;
+    }
+
     public String getPublishDate() {
         return publishDate;
     }
 
     public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
-    }
-
-    public String getPrice() {
-        return price;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    public String getCover() {
-        return cover;
-    }
-
-    public void setCover(String cover) {
-        this.cover = cover;
     }
 }

@@ -61,6 +61,10 @@ public class DetailFragment extends PageFragment implements IDetailView {
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
 
+    // 预览图
+    @Bind(R.id.film_detail_preview)
+    ImageView film_detail_preview;
+
     // 内容
     @Bind(R.id.film_detail_content)
     TextView film_detail_content;
@@ -103,6 +107,9 @@ public class DetailFragment extends PageFragment implements IDetailView {
 
     private DetailPresenter detailPresenter;
 
+    // 当前是否免费电影
+    private boolean isFree = false;
+
     @Override
     protected PagePresenter initPresenter() {
         detailPresenter = new DetailPresenter(getBaseActivity(), this, this);
@@ -137,23 +144,29 @@ public class DetailFragment extends PageFragment implements IDetailView {
         collapsingToolbar.setTitle(detailEntity.getTitle());
         film_detail_content.setText(detailEntity.getContent());
 
-        Glide.with(this)
-                .load(detailEntity.getCover())
-                .into(filmPoster);
-
         film_detail_film.setUp(detailEntity.getVideo(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getTitle());
         film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImage()));
 
         Glide.with(this)
+                .load(detailEntity.getCover())
+                .into(filmPoster);
+
+        Glide.with(this)
+                .load(detailEntity.getPreview())
+                .into(film_detail_preview);
+
+        Glide.with(this)
                 .load(detailEntity.getImage())
                 .into(iv_film_preview);
+
+        isFree = detailEntity.getFree();
     }
 
     @Override
     public void setTicketValidateEntity(TicketValidateEntity ticketValidateEntity) {
         // TODO 设置页面是否已经支付的效果
-        Log.i("TAG", JSON.toJSONString(ticketValidateEntity));
-        if (ticketValidateEntity.getTicketOk()) {
+        Log.i("DYTT", JSON.toJSONString(ticketValidateEntity));
+        if (ticketValidateEntity.getTicketOk() || isFree) {
             hideInputTicketLayout(); // 隐藏观影券图层
             showVideoLayout();
         } else {

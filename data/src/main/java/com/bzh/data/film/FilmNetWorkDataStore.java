@@ -33,7 +33,7 @@ public class FilmNetWorkDataStore implements IFilmDataStore {
     @Override
     public Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 2147483647) int pi) {
         return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getFilmList(pi, "domestic"));
+                .getFilmList(pi, "comic"));
     }
 
     @Override

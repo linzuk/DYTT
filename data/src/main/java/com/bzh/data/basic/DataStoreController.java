@@ -13,10 +13,6 @@ import com.bzh.data.ticket.TicketValidateEntity;
 import com.bzh.log.MyLog;
 import com.google.gson.Gson;
 
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -212,9 +208,15 @@ public class DataStoreController {
                                 JSONObject obj = arr.getJSONObject(i);
                                 entity.setId(obj.getString("id"));
                                 entity.setTitle(obj.getString("title"));
+                                entity.setContent(obj.getString("content"));
                                 entity.setImage(obj.getString("image"));
+                                entity.setCover(obj.getString("cover"));
+                                entity.setPreview(obj.getString("preview"));
+                                entity.setType(obj.getString("type"));
+                                entity.setHot(obj.getBoolean("hot"));
+                                entity.setFree(obj.getBoolean("free"));
+                                entity.setShow(obj.getBoolean("show"));
                                 entity.setPublishDate(obj.getString("publish_date"));
-                                entity.setPrice(obj.getString("price"));
                                 filmEntities.add(entity);
                             }
                         }
@@ -256,47 +258,21 @@ public class DataStoreController {
                     JSONObject obj = JSON.parseObject(JSON.toJSONString(data));
                     entity.setId(obj.getString("id"));
                     entity.setTitle(obj.getString("title"));
-                    entity.setImage(obj.getString("image"));
-                    entity.setPublishDate(obj.getString("publish_date"));
-                    entity.setPrice(obj.getString("price"));
                     entity.setContent(obj.getString("content"));
-                    entity.setVideo(obj.getString("video"));
+                    entity.setImage(obj.getString("image"));
                     entity.setCover(obj.getString("cover"));
+                    entity.setPreview(obj.getString("preview"));
+                    entity.setVideo(obj.getString("video"));
+                    entity.setType(obj.getString("type"));
+                    entity.setHot(obj.getBoolean("hot"));
+                    entity.setFree(obj.getBoolean("free"));
+                    entity.setShow(obj.getBoolean("show"));
+                    entity.setPublishDate(obj.getString("publish_date"));
                     return entity;
                 }
             };
         }
         return filmDetailFun;
-    }
-
-    private ArrayList<String> getDownloadNames(Document document) {
-        ArrayList<String> strings = new ArrayList<>();
-        Elements elements = document.select("div.co_content8").select("ul").select("a");
-
-        for (Element e : elements) {
-            String href = e.attr("href");
-            MyLog.d("href = [" + href + "]");
-            if (href.startsWith("ftp") || (href.startsWith("http") && !href.contains("www.ygdy8.net") && !href.contains("www.dytt8.net") && !href.contains("www.dygod.cn"))) {
-                href = href.substring(href.indexOf("]") + 1, href.length()).replaceAll(".rmvb", "").replaceAll(".mkv", "").replaceAll(".mp4", "");
-                strings.add(href);
-            }
-        }
-        return strings;
-    }
-
-
-    private ArrayList<String> getDownloadUrls(Document document) {
-        ArrayList<String> strings = new ArrayList<>();
-        Elements elements = document.select("div.co_content8").select("ul").select("a");
-
-        for (Element e : elements) {
-            String href = e.attr("href");
-            MyLog.d("href = [" + href + "]");
-            if (href.startsWith("ftp") || (href.startsWith("http") && !href.contains("www.ygdy8.net"))) {
-                strings.add(href);
-            }
-        }
-        return strings;
     }
 
     @NonNull
