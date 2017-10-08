@@ -8,7 +8,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
@@ -16,11 +15,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bzh.common.utils.SPUtils;
 import com.bzh.data.film.DetailEntity;
-import com.bzh.data.ticket.TicketValidateEntity;
 import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.basic.FragmentArgs;
@@ -107,9 +104,6 @@ public class DetailFragment extends PageFragment implements IDetailView {
 
     private DetailPresenter detailPresenter;
 
-    // 当前是否免费电影
-    private boolean isFree = false;
-
     @Override
     protected PagePresenter initPresenter() {
         detailPresenter = new DetailPresenter(getBaseActivity(), this, this);
@@ -134,7 +128,7 @@ public class DetailFragment extends PageFragment implements IDetailView {
         String ticket = et_ticket.getText().toString();
         if (!StringUtil.isBlank(ticket)) {
             SPUtils.putShareData("TICKET", ticket);
-            detailPresenter.validateTicket();
+            detailPresenter.initFragmentConfig();
         }
     }
 
@@ -159,20 +153,14 @@ public class DetailFragment extends PageFragment implements IDetailView {
                 .load(detailEntity.getImage())
                 .into(iv_film_preview);
 
-        isFree = detailEntity.getFree();
-    }
-
-    @Override
-    public void setTicketValidateEntity(TicketValidateEntity ticketValidateEntity) {
         // TODO 设置页面是否已经支付的效果
-        Log.i("DYTT", JSON.toJSONString(ticketValidateEntity));
-        if (ticketValidateEntity.getTicketOk() || isFree) {
+        if (detailEntity.getTicketOk() || detailEntity.getFree()) {
             hideInputTicketLayout(); // 隐藏观影券图层
             showVideoLayout();
         } else {
             hideVideoLayout(); // 隐藏视频图层
             showInputTicketLayout();
-            Date expireTime = ticketValidateEntity.getExpireTime();
+            Date expireTime = detailEntity.getExpireTime();
             if (null == expireTime) {
                 tv_ticket_tip.setText("您尚未购买观影券");
             } else {

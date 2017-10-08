@@ -1,5 +1,7 @@
 package com.bzh.dytt.detail;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -34,6 +36,7 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
     private String id;
     private DetailEntity detailEntity;
     private TicketValidateEntity ticketValidateEntity;
+    private int fabClickCount = 0;
 
     public DetailPresenter(BaseActivity baseActivity, BaseFragment baseFragment, IDetailView filmDetailView) {
         super(baseActivity, baseFragment, filmDetailView);
@@ -46,7 +49,37 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
             getBaseActivity().finish();
         } else if (v.getId() == R.id.fab) {
             // TODO 点击下载按钮处理逻辑
-            Toast.makeText(getBaseActivity(), "哎呀，别点了，点坏了要负责哦～", Toast.LENGTH_SHORT).show();
+            fabClickCount++;
+            String text = null;
+            switch (fabClickCount) {
+                case 1:
+                    text = "雅蠛蝶~";
+                    break;
+                case 2:
+                    text = "你弄疼我了";
+                    break;
+                case 3:
+                case 4:
+                    text = "哎呀，别点了，点怀孕了要负责哦～";
+                    break;
+                case 5:
+                    text = "啊啊啊～";
+                    break;
+                case 88:
+                    text = "我就想看看你还能点多久";
+                    break;
+                case 99:
+                    text = "少年，你已经无药可救了";
+                case 100:
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    intent.setData(Uri.parse("https://www.baidu.com/s?ie=UTF-8&wd=%E9%99%84%E8%BF%91%E5%93%AA%E6%9C%89%E7%B2%BE%E7%A5%9E%E7%97%85%E5%8C%BB%E9%99%A2"));
+                    baseActivity.startActivity(intent);
+                    break;
+                default:
+                    text = "啊啊，不要停！尽情的蹂躏我吧";
+            }
+            if (null != text) Toast.makeText(getBaseActivity(), text, Toast.LENGTH_SHORT).show();
 //            if (detailEntity != null && detailEntity.getDownloadUrls().size() > 0) {
 //                if (detailEntity.getDownloadUrls().size() == 1) {
 //                    ThunderHelper.getInstance(getBaseActivity()).onClickDownload(v, detailEntity.getDownloadUrls().get(0));
@@ -75,7 +108,7 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
             id = baseFragment.getArguments().getString(DetailFragment.FILM_ID);
             if (!TextUtils.isEmpty(id)) {
                 FilmDetailTaskSubscriber detailTaskSubscriber = new FilmDetailTaskSubscriber();
-                Repository.getInstance().getFilmDetail(id)
+                Repository.getInstance().getFilmDetail(id, SPUtils.getShareData("TICKET", ""), DeviceUtils.getUniqueId(getBaseActivity()))
                         .doOnSubscribe(detailTaskSubscriber)
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(AndroidSchedulers.mainThread())
@@ -83,23 +116,23 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
                         .subscribe(detailTaskSubscriber);
             }
 
-            // 初始化电影券校验数据
-            validateTicket();
+//            // 初始化电影券校验数据
+//            validateTicket();
         }
         filmDetailView.initToolbar();
         filmDetailView.initFab();
     }
 
-    // 初始化电影券校验数据
-    public void validateTicket() {
-        TicketValidateTaskSubscriber ticketTaskSubscriber = new TicketValidateTaskSubscriber();
-        Repository.getInstance().validateTicket(SPUtils.getShareData("TICKET", ""), DeviceUtils.getUniqueId(getBaseActivity()))
-                .doOnSubscribe(ticketTaskSubscriber)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(ticketTaskSubscriber);
-    }
+//    // 初始化电影券校验数据
+//    private void validateTicket() {
+//        TicketValidateTaskSubscriber ticketTaskSubscriber = new TicketValidateTaskSubscriber();
+//        Repository.getInstance().validateTicket(SPUtils.getShareData("TICKET", ""), DeviceUtils.getUniqueId(getBaseActivity()))
+//                .doOnSubscribe(ticketTaskSubscriber)
+//                .subscribeOn(Schedulers.io())
+//                .unsubscribeOn(AndroidSchedulers.mainThread())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(ticketTaskSubscriber);
+//    }
 
     private class FilmDetailTaskSubscriber extends AbstractTaskSubscriber<DetailEntity> {
         @Override
@@ -110,20 +143,20 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
         }
     }
 
-    private class TicketValidateTaskSubscriber extends AbstractTaskSubscriber<TicketValidateEntity> {
-        @Override
-        public void onSuccess(TicketValidateEntity ticketValidateEntity) {
-            super.onSuccess(ticketValidateEntity);
-            DetailPresenter.this.ticketValidateEntity = ticketValidateEntity;
-            updateTicketValidateStatus();
-        }
-    }
+//    private class TicketValidateTaskSubscriber extends AbstractTaskSubscriber<TicketValidateEntity> {
+//        @Override
+//        public void onSuccess(TicketValidateEntity ticketValidateEntity) {
+//            super.onSuccess(ticketValidateEntity);
+//            DetailPresenter.this.ticketValidateEntity = ticketValidateEntity;
+//            updateTicketValidateStatus();
+//        }
+//    }
 
     private void updateFileDetailStatus() {
         filmDetailView.setFilmDetail(detailEntity);
     }
 
-    private void updateTicketValidateStatus() {
-        filmDetailView.setTicketValidateEntity(ticketValidateEntity);
-    }
+//    private void updateTicketValidateStatus() {
+//        filmDetailView.setTicketValidateEntity(detailEntity.getFree(), ticketValidateEntity);
+//    }
 }

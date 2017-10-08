@@ -13,8 +13,8 @@ android {
         applicationId "com.bzh.dytt"
         minSdkVersion 21
         targetSdkVersion 22
-        versionCode 5
-        versionName "18.10.7"
+        versionCode 6
+        versionName "18.10.9"
         multiDexEnabled true
 
         // 多渠道
@@ -25,8 +25,8 @@ android {
 
     // 渠道包
     productFlavors {
-        _kuan {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "kuan"]
+        Wandoujia {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Wandoujia"]
         }
     }
 
@@ -38,7 +38,7 @@ android {
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = "AVTT_${defaultConfig.versionName}_${releaseTime()}.apk"
+                def fileName = "avtt_${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }

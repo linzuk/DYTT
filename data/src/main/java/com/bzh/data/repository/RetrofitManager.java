@@ -8,20 +8,9 @@ import com.bzh.data.film.IFilmService;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -49,7 +38,7 @@ public class RetrofitManager {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
-    private static String baseUrl;
+    private static String baseUrl = null;
 
     private RetrofitManager(Context context) {
 
@@ -68,23 +57,28 @@ public class RetrofitManager {
 //                .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 
-        Future<String> future = EXECUTOR.submit(new Callable<String>() {
-            @Override
-            public String call() throws Exception {
-                Document doc = Jsoup.connect("http://www.jianshu.com/users/4fb989f0f0dd/timeline")
-                        .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
-                        .get();
-                Element div = doc.body().getElementsByClass("js-intro").get(0);
-                Element a = div.getElementsByTag("a").get(0);
-                return a.text().trim();
+        if (null == baseUrl) {
+            Future<String> future = EXECUTOR.submit(new Callable<String>() {
+                @Override
+                public String call() throws Exception {
+                    Document doc = Jsoup.connect("http://www.jianshu.com/users/4fb989f0f0dd/timeline")
+                            .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+                            .get();
+                    Element div = doc.body().getElementsByClass("js-intro").get(0);
+                    Element a = div.getElementsByTag("a").get(0);
+                    return a.text().trim();
+                }
+            });
+            try {
+                baseUrl = future.get();
+            } catch (Exception e) {
+                e.printStackTrace();
+                baseUrl = "http://43.225.159.245:9000";
             }
-        });
-        try {
-            baseUrl = future.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            baseUrl = "http://43.225.159.245:9000";
         }
+
+        // TODO 本地测试
+//        baseUrl = "http://192.168.1.108:8080";
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)

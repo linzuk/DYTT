@@ -20,7 +20,5 @@ public interface IDetailView extends IPageView {
 
     void setFilmDetail(DetailEntity detailEntity);
 
-    void setTicketValidateEntity(TicketValidateEntity ticketValidateEntity);
-
     void initToolbar();
 }

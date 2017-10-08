@@ -55,8 +55,8 @@ public class FilmNetWorkDataStore implements IFilmDataStore {
     }
 
     @Override
-    public Observable<DetailEntity> getFilmDetail(final String filmId) {
-        return DataStoreController.getInstance().getNewWorkDetailObservable(iFilmService.getFilmDetail(filmId));
+    public Observable<DetailEntity> getFilmDetail(final String filmId, final String ticket, final String deviceId) {
+        return DataStoreController.getInstance().getNewWorkDetailObservable(iFilmService.getFilmDetail(filmId, ticket, deviceId));
     }
 
     @Override

@@ -28,7 +28,7 @@ public interface IFilmService {
     // 获取电影详情
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
     @GET("/api/vc/getVideo")
-    Observable<ResponseBody> getFilmDetail(@Query("id") String filmId);
+    Observable<ResponseBody> getFilmDetail(@Query("id") String filmId, @Query("ticket") String ticket, @Query("device_id") String deviceId);
 
     // 验证电影券能不能用
     @Headers("Cache-Control:public, max-age=30, max-stale=10")

@@ -1,5 +1,7 @@
 package com.bzh.data.film;
 
+import java.util.Date;
+
 /**
  * ==========================================================<br>
  * <b>版权</b>：　　　别志华 版权所有(c)2016<br>
@@ -24,6 +26,8 @@ public class DetailEntity {
     private Boolean free;
     private Boolean show;
     private String publishDate;
+    private Boolean isTicketOk; // 观影券是否可用
+    private Date expireTime; // 观影券到期时间
 
     public String getId() {
         return id;
@@ -119,5 +123,21 @@ public class DetailEntity {
 
     public void setPublishDate(String publishDate) {
         this.publishDate = publishDate;
+    }
+
+    public Boolean getTicketOk() {
+        return isTicketOk;
+    }
+
+    public void setTicketOk(Boolean ticketOk) {
+        isTicketOk = ticketOk;
+    }
+
+    public Date getExpireTime() {
+        return expireTime;
+    }
+
+    public void setExpireTime(Date expireTime) {
+        this.expireTime = expireTime;
     }
 }

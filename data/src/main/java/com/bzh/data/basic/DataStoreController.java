@@ -268,6 +268,8 @@ public class DataStoreController {
                     entity.setFree(obj.getBoolean("free"));
                     entity.setShow(obj.getBoolean("show"));
                     entity.setPublishDate(obj.getString("publish_date"));
+                    entity.setTicketOk(obj.getBoolean("is_ticket_ok"));
+                    entity.setExpireTime(obj.getDate("expire_time"));
                     return entity;
                 }
             };

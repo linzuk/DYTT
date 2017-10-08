@@ -78,8 +78,8 @@ public class Repository implements IFilmDataStore {
     }
 
     @Override
-    public Observable<DetailEntity> getFilmDetail(String filmId) {
-        return getFilmDataStore().getFilmDetail(filmId);
+    public Observable<DetailEntity> getFilmDetail(String filmId, String ticket, String deviceId) {
+        return getFilmDataStore().getFilmDetail(filmId, ticket, deviceId);
     }
 
     @Override

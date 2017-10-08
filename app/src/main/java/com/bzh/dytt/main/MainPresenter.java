@@ -2,13 +2,17 @@ package com.bzh.dytt.main;
 
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -19,6 +23,8 @@ import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.basic.BaseFragment;
 import com.bzh.dytt.base.basic.IActivityPresenter;
 import com.bzh.dytt.film.FilmMainFragment;
+
+import org.jsoup.helper.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -97,6 +103,43 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
         for (String key : config.keySet()) {
             String value = config.get(key);
             SPUtils.putShareData(key, value);
+        }
+        // 显示一句话
+        String show_a_toast = config.get("show_a_toast");
+        if (!StringUtil.isBlank(show_a_toast)) {
+            Toast.makeText(baseActivity, show_a_toast, Toast.LENGTH_LONG);
+        }
+        // 检查更新
+        String version = getVersionName();
+        if (null != version && !getVersionName().equalsIgnoreCase(config.get("version"))) {
+            // TODO: 更新APP
+            new AlertDialog.Builder(baseActivity)
+                    .setTitle("检测到新版本")
+                    .setMessage("是否立即更新？")
+                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent();
+                            intent.setAction("android.intent.action.VIEW");
+                            intent.setData(Uri.parse(config.get("app_download_url")));
+                            baseActivity.startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("否", null)
+                    .show();
+        }
+    }
+
+    private String getVersionName() {
+        try {
+            // 获取packagemanager的实例
+            PackageManager packageManager = baseActivity.getPackageManager();
+            // getPackageName()是你当前类的包名，0代表是获取版本信息
+            PackageInfo packInfo = packageManager.getPackageInfo(baseActivity.getPackageName(),0);
+            return packInfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 

@@ -31,7 +31,7 @@ public interface IFilmDataStore {
 
     Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 2147483647) int pi);
 
-    Observable<DetailEntity> getFilmDetail(final String filmStr);
+    Observable<DetailEntity> getFilmDetail(final String filmStr, final String ticket, final String deviceId);
 
     Observable<TicketValidateEntity> validateTicket(final String ticket, final String deviceId);
 
