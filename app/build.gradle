@@ -14,7 +14,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 22
         versionCode 6
-        versionName "18.10.9"
+        versionName "18.10.10"
         multiDexEnabled true
 
         // 多渠道
@@ -25,8 +25,8 @@ android {
 
     // 渠道包
     productFlavors {
-        Wandoujia {
-            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "Wandoujia"]
+        _kuan {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "kuan"]
         }
     }
 
