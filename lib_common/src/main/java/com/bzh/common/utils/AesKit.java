@@ -20,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
  */
 public class AesKit {
 
-    private static final String KEY = "fuckaiai";
+    private static final String KEY = "fuckaiaifuckaiai";
     private static final String IV_STRING = "16-Bytes--String";
 
     public static String decryptAES(String content) {
