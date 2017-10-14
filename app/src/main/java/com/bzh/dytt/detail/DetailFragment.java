@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bzh.common.utils.AesKit;
 import com.bzh.common.utils.SPUtils;
 import com.bzh.data.film.DetailEntity;
 import com.bzh.dytt.R;
@@ -138,7 +139,9 @@ public class DetailFragment extends PageFragment implements IDetailView {
         collapsingToolbar.setTitle(detailEntity.getTitle());
         film_detail_content.setText(detailEntity.getContent());
 
-        film_detail_film.setUp(detailEntity.getVideo(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getTitle());
+        String videoUrl = AesKit.decryptAES(detailEntity.getVideo());
+
+        film_detail_film.setUp(videoUrl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getTitle());
         film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImage()));
 
         Glide.with(this)
