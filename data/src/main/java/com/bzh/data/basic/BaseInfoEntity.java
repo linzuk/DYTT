@@ -1,5 +1,7 @@
 package com.bzh.data.basic;
 
+import com.bzh.common.utils.UrlKit;
+
 /**
  * ==========================================================<br>
  * <b>版权</b>：　　　别志华 版权所有(c)2016<br>
@@ -66,7 +68,7 @@ public class BaseInfoEntity {
     }
 
     public String getImage() {
-        return image;
+        return UrlKit.decodeUrl(image);
     }
 
     public void setImage(String image) {
@@ -74,7 +76,7 @@ public class BaseInfoEntity {
     }
 
     public String getCover() {
-        return cover;
+        return UrlKit.decodeUrl(cover);
     }
 
     public void setCover(String cover) {
@@ -82,7 +84,7 @@ public class BaseInfoEntity {
     }
 
     public String getPreview() {
-        return preview;
+        return UrlKit.decodeUrl(preview);
     }
 
     public void setPreview(String preview) {

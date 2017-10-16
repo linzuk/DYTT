@@ -139,9 +139,7 @@ public class DetailFragment extends PageFragment implements IDetailView {
         collapsingToolbar.setTitle(detailEntity.getTitle());
         film_detail_content.setText(detailEntity.getContent());
 
-        String videoUrl = AesKit.decryptAES(detailEntity.getVideo());
-
-        film_detail_film.setUp(videoUrl, JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getTitle());
+        film_detail_film.setUp(detailEntity.getVideo(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getTitle());
         film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImage()));
 
         Glide.with(this)

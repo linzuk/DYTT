@@ -1,5 +1,10 @@
 package com.bzh.data.film;
 
+import com.bzh.common.utils.AesKit;
+import com.bzh.common.utils.UrlKit;
+
+import org.jsoup.helper.StringUtil;
+
 import java.util.Date;
 
 /**
@@ -54,7 +59,7 @@ public class DetailEntity {
     }
 
     public String getImage() {
-        return image;
+        return UrlKit.decodeUrl(image);
     }
 
     public void setImage(String image) {
@@ -62,7 +67,7 @@ public class DetailEntity {
     }
 
     public String getCover() {
-        return cover;
+        return UrlKit.decodeUrl(cover);
     }
 
     public void setCover(String cover) {
@@ -70,7 +75,7 @@ public class DetailEntity {
     }
 
     public String getPreview() {
-        return preview;
+        return UrlKit.decodeUrl(preview);
     }
 
     public void setPreview(String preview) {
@@ -78,7 +83,7 @@ public class DetailEntity {
     }
 
     public String getVideo() {
-        return video;
+        return UrlKit.decodeUrl(video);
     }
 
     public void setVideo(String video) {
