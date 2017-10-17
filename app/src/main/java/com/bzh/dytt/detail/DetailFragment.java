@@ -163,7 +163,7 @@ public class DetailFragment extends PageFragment implements IDetailView {
             showInputTicketLayout();
             Date expireTime = detailEntity.getExpireTime();
             if (null == expireTime) {
-                tv_ticket_tip.setText("您尚未购买观影券");
+                tv_ticket_tip.setText("您尚未购买观影券，首次使用后开始计时");
             } else {
                 tv_ticket_tip.setText("您的观影券已经过期");
             }
