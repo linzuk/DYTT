@@ -3,6 +3,7 @@ package com.bzh.data.repository;
 import android.content.Context;
 
 import com.bzh.common.context.GlobalContext;
+import com.bzh.common.utils.UrlKit;
 import com.bzh.data.film.IFilmService;
 
 import org.jsoup.Jsoup;
@@ -58,19 +59,20 @@ public class RetrofitManager {
                 .build();
 
         if (null == baseUrl) {
-            Future<String> future = EXECUTOR.submit(new Callable<String>() {
-                @Override
-                public String call() throws Exception {
-                    Document doc = Jsoup.connect("http://www.jianshu.com/users/4fb989f0f0dd/timeline")
-                            .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
-                            .get();
-                    Element div = doc.body().getElementsByClass("js-intro").get(0);
-                    Element a = div.getElementsByTag("a").get(0);
-                    return a.text().trim();
-                }
-            });
             try {
-                baseUrl = future.get();
+                Future<String> future = EXECUTOR.submit(new Callable<String>() {
+                    @Override
+                    public String call() throws Exception {
+                        Document doc = Jsoup.connect("http://www.jianshu.com/users/4fb989f0f0dd/timeline")
+                                .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+                                .get();
+                        Element div = doc.body().getElementsByClass("js-intro").get(0);
+                        Element a = div.getElementsByTag("a").get(0);
+                        return a.text().trim();
+                    }
+                });
+                String encodeBaseUrl = future.get();
+                baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
             } catch (Exception e) {
                 e.printStackTrace();
                 baseUrl = "http://43.225.159.245:9000";
