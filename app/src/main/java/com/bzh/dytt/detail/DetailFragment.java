@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bzh.common.utils.AesKit;
 import com.bzh.common.utils.SPUtils;
 import com.bzh.data.film.DetailEntity;
 import com.bzh.dytt.R;
