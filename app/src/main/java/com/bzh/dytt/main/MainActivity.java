@@ -45,8 +45,8 @@ public class MainActivity extends BaseActivity implements MainIView {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        iv_head = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_head);
-        iv_header_view_background = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_header_view_background);
+//        iv_head = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_head);
+//        iv_header_view_background = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_header_view_background);
 
         mainA = new MainPresenter(this, this);
         mainA.onCreate(savedInstanceState);

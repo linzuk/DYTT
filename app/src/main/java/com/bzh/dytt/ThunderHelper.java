@@ -1,19 +1,14 @@
 package com.bzh.dytt;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.support.design.widget.Snackbar;
 import android.text.TextUtils;
 import android.view.View;
 
 import com.bzh.dytt.base.basic.BaseActivity;
-
-import java.util.List;
 
 /**
  * ==========================================================<br>
