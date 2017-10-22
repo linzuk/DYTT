@@ -16,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.bzh.common.utils.DeviceUtils;
 import com.bzh.common.utils.SPUtils;
 import com.bzh.data.repository.Repository;
 import com.bzh.dytt.R;
@@ -70,7 +71,7 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
     public void onCreate(Bundle savedInstanceState) {
         // 从服务器获取配置信息
         ConfigSubscriber configSubscriber = new ConfigSubscriber();
-        Repository.getInstance().getConfig()
+        Repository.getInstance().getConfig(DeviceUtils.getUniqueId(baseActivity))
                 .doOnSubscribe(configSubscriber)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(AndroidSchedulers.mainThread())

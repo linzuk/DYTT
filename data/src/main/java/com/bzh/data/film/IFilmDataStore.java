@@ -35,5 +35,5 @@ public interface IFilmDataStore {
 
     Observable<TicketValidateEntity> validateTicket(final String ticket, final String deviceId);
 
-    Observable<Map<String, String>> getConfig();
+    Observable<Map<String, String>> getConfig(final String deviceId);
 }

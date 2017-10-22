@@ -65,7 +65,7 @@ public class FilmNetWorkDataStore implements IFilmDataStore {
     }
 
     @Override
-    public Observable<Map<String, String>> getConfig() {
-        return DataStoreController.getInstance().getConfigObservable(iFilmService.getConfig());
+    public Observable<Map<String, String>> getConfig(final String deviceId) {
+        return DataStoreController.getInstance().getConfigObservable(iFilmService.getConfig(deviceId));
     }
 }
