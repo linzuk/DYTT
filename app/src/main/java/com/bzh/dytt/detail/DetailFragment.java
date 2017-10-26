@@ -136,6 +136,10 @@ public class DetailFragment extends PageFragment implements IDetailView {
                 .load(detailEntity.getImageUrl())
                 .into(filmPoster);
 
+        Glide.with(this)
+                .load(detailEntity.getImageUrl())
+                .into(iv_film_preview);
+
         // TODO 设置页面是否已经支付的效果
         if (detailEntity.getTicketOk() || detailEntity.getFree()) {
             hideInputTicketLayout(); // 隐藏观影券图层
