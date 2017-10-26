@@ -21,7 +21,7 @@ public class DomesticFilmPresenterFilm extends BaseFilmInfoPresenter {
     }
 
     public Observable<ArrayList<BaseInfoEntity>> getRequestListDataObservable(String nextPage) {
-        return Repository.getInstance().getFileList("/categories/hentai", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
+        return Repository.getInstance().getFileList("/categories/hentai?abc=1", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
     }
 
     @Override
