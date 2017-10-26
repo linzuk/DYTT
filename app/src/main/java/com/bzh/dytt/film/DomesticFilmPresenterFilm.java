@@ -1,5 +1,6 @@
 package com.bzh.dytt.film;
 
+import com.bzh.common.utils.DeviceUtils;
 import com.bzh.data.basic.BaseInfoEntity;
 import com.bzh.data.repository.Repository;
 import com.bzh.dytt.base.basic.BaseActivity;
@@ -20,11 +21,11 @@ public class DomesticFilmPresenterFilm extends BaseFilmInfoPresenter {
     }
 
     public Observable<ArrayList<BaseInfoEntity>> getRequestListDataObservable(String nextPage) {
-        return Repository.getInstance().getDomestic(Integer.valueOf(nextPage));
+        return Repository.getInstance().getFileList("/categories/hentai", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
     }
 
     @Override
     public String getMaxPage() {
-        return 87 + "";
+        return 500 + "";
     }
 }

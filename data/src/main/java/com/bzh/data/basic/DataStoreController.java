@@ -57,50 +57,6 @@ public class DataStoreController {
         }
         return tmp;
     }
-    ///////////////////////////////////////////////////////////////////////////
-
-    ///////////////////////////////////////////////////////////////////////////
-
-    // 公共
-    private static final String TRANSLATIONNAME = "译名";
-    private static final String NAME = "片名";
-    private static final String YEARS = "年代";
-    private static final String COUNTRY = "国家";
-    private static final String CATEGORY = "类别";
-    private static final String LANGUAGE = "语言";
-    private static final String SHOWTIME = "片长";
-    private static final String DIRECTOR = "导演";
-    private static final String LEADINGPLAYERS = "主演";
-    private static final String DESCRIPTION = "简介";
-    private static final String AREA = "地区";
-
-    // 电影
-    private static final String SUBTITLE = "字幕";
-    private static final String FILEFORMAT = "文件格式";
-    private static final String VIDEOSIZE = "视频尺寸";
-    private static final String FILESIZE = "文件大小";
-    private static final String IMDB = "IMDb评分";
-
-    // 电视剧
-    private static final String EPISODENUMBER = "集数";
-    private static final String PLAYTIME = "上映日期";
-
-    // 日韩电视剧
-    private static final String PLAYNAME = "剧名";
-    private static final String SOURCE = "播送";
-    private static final String TYPE = "类型";
-    private static final String PREMIERE = "首播";
-    private static final String PREMIERE_TIME = "首播日期";
-    private static final String TIME = "时间";
-    private static final String JIE_DANG = "接档";
-    private static final String SCREENWRITER = "编剧";
-
-
-    // 欧美电视剧
-    private static final String TVSTATION = "电视台";
-    private static final String TVSTATION_1 = "播放平台";
-    private static final String PERFORMER = "演员";
-    private static final String SOURCENAME = "原名";
 
     ///////////////////////////////////////////////////////////////////////////
 
@@ -206,17 +162,10 @@ public class DataStoreController {
                             for (int i = 0; i < arr.size(); i++) {
                                 BaseInfoEntity entity = new BaseInfoEntity();
                                 JSONObject obj = arr.getJSONObject(i);
-                                entity.setId(obj.getString("id"));
-                                entity.setTitle(obj.getString("title"));
-                                entity.setContent(obj.getString("content"));
-                                entity.setImage(obj.getString("image"));
-                                entity.setCover(obj.getString("cover"));
-                                entity.setPreview(obj.getString("preview"));
-                                entity.setType(obj.getString("type"));
-                                entity.setHot(obj.getBoolean("hot"));
+                                entity.setViewkey(obj.getString("viewkey"));
+                                entity.setVideoTitle(obj.getString("video_title"));
+                                entity.setImageUrl(obj.getString("image"));
                                 entity.setFree(obj.getBoolean("free"));
-                                entity.setShow(obj.getBoolean("show"));
-                                entity.setPublishDate(obj.getString("publish_date"));
                                 filmEntities.add(entity);
                             }
                         }
@@ -256,18 +205,13 @@ public class DataStoreController {
                     DetailEntity entity = new DetailEntity();
                     Object data = getData(s);
                     JSONObject obj = JSON.parseObject(JSON.toJSONString(data));
-                    entity.setId(obj.getString("id"));
-                    entity.setTitle(obj.getString("title"));
-                    entity.setContent(obj.getString("content"));
-                    entity.setImage(obj.getString("image"));
-                    entity.setCover(obj.getString("cover"));
-                    entity.setPreview(obj.getString("preview"));
-                    entity.setVideo(obj.getString("video"));
-                    entity.setType(obj.getString("type"));
-                    entity.setHot(obj.getBoolean("hot"));
+                    entity.setViewkey(obj.getString("viewkey"));
+                    entity.setVideoTitle(obj.getString("video_title"));
+                    entity.setImageUrl(obj.getString("image"));
+                    entity.setQuality480p(obj.getString("quality480p"));
+                    entity.setLinkUrl(obj.getString("link_url"));
+                    entity.setVideoDuration(obj.getString("video_duration"));
                     entity.setFree(obj.getBoolean("free"));
-                    entity.setShow(obj.getBoolean("show"));
-                    entity.setPublishDate(obj.getString("publish_date"));
                     entity.setTicketOk(obj.getBoolean("is_ticket_ok"));
                     entity.setExpireTime(obj.getDate("expire_time"));
                     return entity;

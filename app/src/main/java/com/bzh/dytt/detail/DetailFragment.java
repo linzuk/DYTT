@@ -37,9 +37,9 @@ public class DetailFragment extends PageFragment implements IDetailView {
 
     public static final String FILM_ID = "FILM_ID";
 
-    public static void launch(BaseActivity from, String id) {
+    public static void launch(BaseActivity from, String viewkey) {
         FragmentArgs fragmentArgs = new FragmentArgs();
-        fragmentArgs.add(FILM_ID, id);
+        fragmentArgs.add(FILM_ID, viewkey);
         FragmentContainerActivity.launch(from, DetailFragment.class, fragmentArgs);
     }
 
@@ -135,23 +135,15 @@ public class DetailFragment extends PageFragment implements IDetailView {
     @Override
     public void setFilmDetail(DetailEntity detailEntity) {
         // TODO 设置电影详情页面数据
-        collapsingToolbar.setTitle(detailEntity.getTitle());
-        film_detail_content.setText(detailEntity.getContent());
+        collapsingToolbar.setTitle(detailEntity.getVideoTitle());
+        film_detail_content.setText("");
 
-        film_detail_film.setUp(detailEntity.getVideo(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getTitle());
-        film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImage()));
+        film_detail_film.setUp(detailEntity.getQuality480p(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getVideoTitle());
+        film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImageUrl()));
 
         Glide.with(this)
-                .load(detailEntity.getCover())
+                .load(detailEntity.getImageUrl())
                 .into(filmPoster);
-
-        Glide.with(this)
-                .load(detailEntity.getPreview())
-                .into(film_detail_preview);
-
-        Glide.with(this)
-                .load(detailEntity.getImage())
-                .into(iv_film_preview);
 
         // TODO 设置页面是否已经支付的效果
         if (detailEntity.getTicketOk() || detailEntity.getFree()) {

@@ -1,10 +1,5 @@
 package com.bzh.data.film;
 
-import com.bzh.common.utils.AesKit;
-import com.bzh.common.utils.UrlKit;
-
-import org.jsoup.helper.StringUtil;
-
 import java.util.Date;
 
 /**
@@ -19,91 +14,62 @@ import java.util.Date;
  */
 public class DetailEntity {
 
-    private String id;
-    private String title;
-    private String content;
-    private String image;
-    private String cover;
-    private String preview;
-    private String video;
-    private String type;
-    private Boolean hot;
+    private String viewkey;
+    private String videoTitle;
+    private String imageUrl;
+    private String linkUrl;
+    private String quality480p;
+    private String videoDuration;
     private Boolean free;
-    private Boolean show;
-    private String publishDate;
     private Boolean isTicketOk; // 观影券是否可用
     private Date expireTime; // 观影券到期时间
 
-    public String getId() {
-        return id;
+    public String getViewkey() {
+        return viewkey;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setViewkey(String viewkey) {
+        this.viewkey = viewkey;
     }
 
-    public String getTitle() {
-        return title;
+    public String getVideoTitle() {
+        return videoTitle;
     }
 
-    public String getContent() {
-        return content;
+    public void setVideoTitle(String videoTitle) {
+        this.videoTitle = videoTitle;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
-    public String getImage() {
-        return UrlKit.decodeUrl(image);
+    public String getLinkUrl() {
+        return linkUrl;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 
-    public String getCover() {
-        return UrlKit.decodeUrl(cover);
+    public String getQuality480p() {
+        return quality480p;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setQuality480p(String quality480p) {
+        this.quality480p = quality480p;
     }
 
-    public String getPreview() {
-        return UrlKit.decodeUrl(preview);
+    public String getVideoDuration() {
+        return videoDuration;
     }
 
-    public void setPreview(String preview) {
-        this.preview = preview;
-    }
-
-    public String getVideo() {
-        return UrlKit.decodeUrl(video);
-    }
-
-    public void setVideo(String video) {
-        this.video = video;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Boolean getHot() {
-        return hot;
-    }
-
-    public void setHot(Boolean hot) {
-        this.hot = hot;
+    public void setVideoDuration(String videoDuration) {
+        this.videoDuration = videoDuration;
     }
 
     public Boolean getFree() {
@@ -112,22 +78,6 @@ public class DetailEntity {
 
     public void setFree(Boolean free) {
         this.free = free;
-    }
-
-    public Boolean getShow() {
-        return show;
-    }
-
-    public void setShow(Boolean show) {
-        this.show = show;
-    }
-
-    public String getPublishDate() {
-        return publishDate;
-    }
-
-    public void setPublishDate(String publishDate) {
-        this.publishDate = publishDate;
     }
 
     public Boolean getTicketOk() {

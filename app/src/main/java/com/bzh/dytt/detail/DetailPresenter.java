@@ -33,7 +33,7 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
 
 
     private final IDetailView filmDetailView;
-    private String id;
+    private String viewkey;
     private DetailEntity detailEntity;
     private TicketValidateEntity ticketValidateEntity;
     private int fabClickCount = 0;
@@ -105,10 +105,10 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
     public void initFragmentConfig() {
         if (null != baseFragment.getArguments()) {
             // 初始化电影详情数据
-            id = baseFragment.getArguments().getString(DetailFragment.FILM_ID);
-            if (!TextUtils.isEmpty(id)) {
+            viewkey = baseFragment.getArguments().getString(DetailFragment.FILM_ID);
+            if (!TextUtils.isEmpty(viewkey)) {
                 FilmDetailTaskSubscriber detailTaskSubscriber = new FilmDetailTaskSubscriber();
-                Repository.getInstance().getFilmDetail(id, SPUtils.getShareData("TICKET", ""), DeviceUtils.getUniqueId(getBaseActivity()))
+                Repository.getInstance().getFilmDetail(viewkey, SPUtils.getShareData("TICKET", ""), DeviceUtils.getUniqueId(getBaseActivity()))
                         .doOnSubscribe(detailTaskSubscriber)
                         .subscribeOn(Schedulers.io())
                         .unsubscribeOn(AndroidSchedulers.mainThread())

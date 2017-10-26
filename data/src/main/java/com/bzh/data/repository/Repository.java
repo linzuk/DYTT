@@ -58,28 +58,13 @@ public class Repository implements IFilmDataStore {
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 2147483647) int index) {
-        return getFilmDataStore().getDomestic(index);
+    public Observable<ArrayList<BaseInfoEntity>> getFileList(String category, @IntRange(from = 1, to = 2147483647) int index, String deviceId) {
+        return getFilmDataStore().getFileList(category, index, deviceId);
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getNewest(@IntRange(from = 1, to = 2147483647) int index) {
-        return getFilmDataStore().getNewest(index);
-    }
-
-    @Override
-    public Observable<ArrayList<BaseInfoEntity>> getEuropeAmerica(@IntRange(from = 1, to = 2147483647) int index) {
-        return getFilmDataStore().getEuropeAmerica(index);
-    }
-
-    @Override
-    public Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 2147483647) int index) {
-        return getFilmDataStore().getJapanSouthKorea(index);
-    }
-
-    @Override
-    public Observable<DetailEntity> getFilmDetail(String filmId, String ticket, String deviceId) {
-        return getFilmDataStore().getFilmDetail(filmId, ticket, deviceId);
+    public Observable<DetailEntity> getFilmDetail(String viewkey, String ticket, String deviceId) {
+        return getFilmDataStore().getFilmDetail(viewkey, ticket, deviceId);
     }
 
     @Override

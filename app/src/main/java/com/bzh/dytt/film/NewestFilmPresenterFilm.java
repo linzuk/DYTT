@@ -1,5 +1,6 @@
 package com.bzh.dytt.film;
 
+import com.bzh.common.utils.DeviceUtils;
 import com.bzh.data.basic.BaseInfoEntity;
 import com.bzh.data.repository.Repository;
 import com.bzh.dytt.base.basic.BaseActivity;
@@ -20,11 +21,11 @@ public class NewestFilmPresenterFilm extends BaseFilmInfoPresenter {
     }
 
     public Observable<ArrayList<BaseInfoEntity>> getRequestListDataObservable(String nextPage) {
-        return Repository.getInstance().getNewest(Integer.valueOf(nextPage));
+        return Repository.getInstance().getFileList("", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
     }
 
     @Override
     public String getMaxPage() {
-        return 131 + "";
+        return 500 + "";
     }
 }

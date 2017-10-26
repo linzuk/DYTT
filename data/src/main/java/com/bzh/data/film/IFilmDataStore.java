@@ -6,7 +6,6 @@ import com.bzh.data.basic.BaseInfoEntity;
 import com.bzh.data.ticket.TicketValidateEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -23,15 +22,9 @@ import rx.Observable;
  */
 public interface IFilmDataStore {
 
-    Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 2147483647) int pi);
+    Observable<ArrayList<BaseInfoEntity>> getFileList(final String category, @IntRange(from = 1, to = 2147483647) int pi, final String deviceId);
 
-    Observable<ArrayList<BaseInfoEntity>> getNewest(@IntRange(from = 1, to = 2147483647) final int pi);
-
-    Observable<ArrayList<BaseInfoEntity>> getEuropeAmerica(@IntRange(from = 1, to = 2147483647) int pi);
-
-    Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 2147483647) int pi);
-
-    Observable<DetailEntity> getFilmDetail(final String filmStr, final String ticket, final String deviceId);
+    Observable<DetailEntity> getFilmDetail(final String viewkey, final String ticket, final String deviceId);
 
     Observable<TicketValidateEntity> validateTicket(final String ticket, final String deviceId);
 

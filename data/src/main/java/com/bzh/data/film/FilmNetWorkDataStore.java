@@ -7,7 +7,6 @@ import com.bzh.data.basic.DataStoreController;
 import com.bzh.data.ticket.TicketValidateEntity;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -31,32 +30,14 @@ public class FilmNetWorkDataStore implements IFilmDataStore {
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getDomestic(@IntRange(from = 1, to = 2147483647) int pi) {
+    public Observable<ArrayList<BaseInfoEntity>> getFileList(final String category, @IntRange(from = 1, to = 2147483647) int pi, final String deviceId) {
         return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getFilmList(pi, "comic"));
+                .getFilmList(pi, category, deviceId));
     }
 
     @Override
-    public Observable<ArrayList<BaseInfoEntity>> getNewest(@IntRange(from = 1, to = 2147483647) final int pi) {
-        return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getFilmList(pi, "newest"));
-    }
-
-    @Override
-    public Observable<ArrayList<BaseInfoEntity>> getEuropeAmerica(@IntRange(from = 1, to = 2147483647) int pi) {
-        return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getFilmList(pi, "europe"));
-    }
-
-    @Override
-    public Observable<ArrayList<BaseInfoEntity>> getJapanSouthKorea(@IntRange(from = 1, to = 2147483647) int pi) {
-        return DataStoreController.getInstance().getNewWorkObservable(iFilmService
-                .getFilmList(pi, "japan"));
-    }
-
-    @Override
-    public Observable<DetailEntity> getFilmDetail(final String filmId, final String ticket, final String deviceId) {
-        return DataStoreController.getInstance().getNewWorkDetailObservable(iFilmService.getFilmDetail(filmId, ticket, deviceId));
+    public Observable<DetailEntity> getFilmDetail(final String viewkey, final String ticket, final String deviceId) {
+        return DataStoreController.getInstance().getNewWorkDetailObservable(iFilmService.getFilmDetail(viewkey, ticket, deviceId));
     }
 
     @Override

@@ -22,13 +22,13 @@ public interface IFilmService {
 
     // 获取电影列表
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
-    @GET("/api/vc/listVideo")
-    Observable<ResponseBody> getFilmList(@Query("pi") @IntRange(from = 1, to = 2147483647) int pi, @Query("type") String type);
+    @GET("/api/porn/listPorn")
+    Observable<ResponseBody> getFilmList(@Query("pi") @IntRange(from = 1, to = 2147483647) int pi, @Query("category") String category, @Query("device_id") String deviceId);
 
     // 获取电影详情
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
-    @GET("/api/vc/getVideo")
-    Observable<ResponseBody> getFilmDetail(@Query("id") String filmId, @Query("ticket") String ticket, @Query("device_id") String deviceId);
+    @GET("/api/porn/getPorn")
+    Observable<ResponseBody> getFilmDetail(@Query("viewkey") String viewkey, @Query("ticket") String ticket, @Query("device_id") String deviceId);
 
     // 验证电影券能不能用
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
