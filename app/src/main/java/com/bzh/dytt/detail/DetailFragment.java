@@ -58,14 +58,6 @@ public class DetailFragment extends PageFragment implements IDetailView {
     @Bind(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
 
-    // 预览图
-    @Bind(R.id.film_detail_preview)
-    ImageView film_detail_preview;
-
-    // 内容
-    @Bind(R.id.film_detail_content)
-    TextView film_detail_content;
-
     // 视频播放器
     @Bind(R.id.film_detail_film)
     JCVideoPlayerStandard film_detail_film;
@@ -136,7 +128,6 @@ public class DetailFragment extends PageFragment implements IDetailView {
     public void setFilmDetail(DetailEntity detailEntity) {
         // TODO 设置电影详情页面数据
         collapsingToolbar.setTitle(detailEntity.getVideoTitle());
-        film_detail_content.setText("");
 
         film_detail_film.setUp(detailEntity.getQuality480p(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getVideoTitle());
         film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImageUrl()));
