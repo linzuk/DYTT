@@ -75,7 +75,6 @@ public class RetrofitManager {
                 baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
             } catch (Exception e) {
                 e.printStackTrace();
-                baseUrl = "http://43.225.159.245:9000";
             }
         }
 
