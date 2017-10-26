@@ -164,7 +164,7 @@ public class DataStoreController {
                                 JSONObject obj = arr.getJSONObject(i);
                                 entity.setViewkey(obj.getString("viewkey"));
                                 entity.setVideoTitle(obj.getString("video_title"));
-                                entity.setImageUrl(obj.getString("image"));
+                                entity.setImageUrl(obj.getString("image_url"));
                                 entity.setFree(obj.getBoolean("free"));
                                 filmEntities.add(entity);
                             }
@@ -207,7 +207,7 @@ public class DataStoreController {
                     JSONObject obj = JSON.parseObject(JSON.toJSONString(data));
                     entity.setViewkey(obj.getString("viewkey"));
                     entity.setVideoTitle(obj.getString("video_title"));
-                    entity.setImageUrl(obj.getString("image"));
+                    entity.setImageUrl(obj.getString("image_url"));
                     entity.setQuality480p(obj.getString("quality480p"));
                     entity.setLinkUrl(obj.getString("link_url"));
                     entity.setVideoDuration(obj.getString("video_duration"));
