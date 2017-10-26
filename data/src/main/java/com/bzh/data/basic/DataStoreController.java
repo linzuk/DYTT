@@ -6,6 +6,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.bzh.common.utils.AesKit;
 import com.bzh.common.utils.SystemUtils;
 import com.bzh.data.exception.TaskException;
 import com.bzh.data.film.DetailEntity;
@@ -155,9 +156,9 @@ public class DataStoreController {
                 public ArrayList<BaseInfoEntity> call(String s) {
                     // TODO 在这里解析列表数据
                     ArrayList<BaseInfoEntity> filmEntities = new ArrayList<>();
-                    Object data = getData(s);
+                    String data = (String) getData(s);
                     if (null != data) {
-                        JSONArray arr = JSON.parseArray(JSON.toJSONString(data));
+                        JSONArray arr = JSON.parseArray(AesKit.decryptAES(data));
                         if (null != arr && arr.size() > 0) {
                             for (int i = 0; i < arr.size(); i++) {
                                 BaseInfoEntity entity = new BaseInfoEntity();
@@ -203,8 +204,8 @@ public class DataStoreController {
                 public DetailEntity call(String s) {
                     // TODO 在这里解析详情数据
                     DetailEntity entity = new DetailEntity();
-                    Object data = getData(s);
-                    JSONObject obj = JSON.parseObject(JSON.toJSONString(data));
+                    String data = (String) getData(s);
+                    JSONObject obj = JSON.parseObject(AesKit.decryptAES(data));
                     entity.setViewkey(obj.getString("viewkey"));
                     entity.setVideoTitle(obj.getString("video_title"));
                     entity.setImageUrl(obj.getString("image_url"));
