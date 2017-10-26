@@ -1,6 +1,7 @@
 package com.bzh.data.repository;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.bzh.common.context.GlobalContext;
 import com.bzh.common.utils.UrlKit;
@@ -67,15 +68,13 @@ public class RetrofitManager {
                                 .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
                                 .get();
                         Element div = doc.body().getElementsByClass("js-intro").get(0);
-                        Element a = div.getElementsByTag("a").get(0);
-                        return a.text().trim();
+                        return div.text().trim();
                     }
                 });
                 String encodeBaseUrl = future.get();
                 baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
             } catch (Exception e) {
                 e.printStackTrace();
-                baseUrl = "http://43.225.159.245:9000";
             }
         }
 
