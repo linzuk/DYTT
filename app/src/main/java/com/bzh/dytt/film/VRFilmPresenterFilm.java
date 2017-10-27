@@ -12,16 +12,17 @@ import java.util.ArrayList;
 import rx.Observable;
 
 /**
- * 动漫
+ * 欧美
  */
-public class DomesticFilmPresenterFilm extends BaseFilmInfoPresenter {
+public class VRFilmPresenterFilm extends BaseFilmInfoPresenter {
 
-    public DomesticFilmPresenterFilm(BaseActivity baseActivity, BaseFragment baseFragment, RefreshRecyclerView iView) {
+
+    public VRFilmPresenterFilm(BaseActivity baseActivity, BaseFragment baseFragment, RefreshRecyclerView iView) {
         super(baseActivity, baseFragment, iView);
     }
 
     public Observable<ArrayList<BaseInfoEntity>> getRequestListDataObservable(String nextPage) {
-        return Repository.getInstance().getFileList("/categories/hentai?hd=1", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
+        return Repository.getInstance().getFileList("/vr?abc=1", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
     }
 
     @Override

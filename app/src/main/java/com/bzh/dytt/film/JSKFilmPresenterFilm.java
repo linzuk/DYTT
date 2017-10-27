@@ -21,7 +21,7 @@ public class JSKFilmPresenterFilm extends BaseFilmInfoPresenter {
     }
 
     public Observable<ArrayList<BaseInfoEntity>> getRequestListDataObservable(String nextPage) {
-        return Repository.getInstance().getFileList("/video?c=111", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
+        return Repository.getInstance().getFileList("/video?c=111&hd=1", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
     }
 
     @Override

@@ -22,7 +22,7 @@ public class EAFilmPresenterFilm extends BaseFilmInfoPresenter {
     }
 
     public Observable<ArrayList<BaseInfoEntity>> getRequestListDataObservable(String nextPage) {
-        return Repository.getInstance().getFileList("/video?o=ht", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
+        return Repository.getInstance().getFileList("/categories/pornstar?hd=1", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
     }
 
     @Override
