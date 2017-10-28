@@ -45,7 +45,7 @@ public class FilmMainPresenter extends TabLayoutPresenter implements IFragmentPr
     @Override
     public ArrayList<StripTabItem> generateTabs() {
         ArrayList<StripTabItem> items = new ArrayList<>();
-        items.add(new StripTabItem(NEWEST_FILM, "电影"));
+        items.add(new StripTabItem(NEWEST_FILM, "热门"));
         items.add(new StripTabItem(JAPAN_SOUTH_KOREA_FILM, "日韩"));
         items.add(new StripTabItem(EUROPE_AMERICA_FILM, "欧美"));
         items.add(new StripTabItem(COMIC_FILM, "动漫"));
