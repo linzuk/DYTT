@@ -70,12 +70,18 @@ public class DataStoreController {
 
     ///////////////////////////////////////////////////////////////////////////
     // variable
+    private Func1<String, String> downloadFimFun;
     private Func1<String, Map<String, String>> getConfigFun;
     private Func1<ResponseBody, String> transformCharset;
     private Func1<String, ArrayList<BaseInfoEntity>> listFun;
     private Func1<String, DetailEntity> filmDetailFun;
     private Func1<String, TicketValidateEntity> validateTicketFun;
     ///////////////////////////////////////////////////////////////////////////
+
+    @NonNull
+    public Observable<String> downloadFilmObservable(final Observable<ResponseBody> observable) {
+        return getObservable(observable, getTransformCharset(), downloadFilmFun());
+    }
 
     @NonNull
     public Observable<Map<String, String>> getConfigObservable(final Observable<ResponseBody> observable) {
@@ -95,6 +101,24 @@ public class DataStoreController {
     @NonNull
     public Observable<TicketValidateEntity> validateTicketObservable(final Observable<ResponseBody> observable) {
         return getObservable(observable, getTransformCharset(), validateTicketFun());
+    }
+
+    @NonNull
+    private Func1<String, String> downloadFilmFun() {
+        if (downloadFimFun == null) {
+            downloadFimFun = new Func1<String, String>() {
+                @Override
+                public String call(String s) {
+                    // TODO 在这里解析是否允许下载电影
+                    Object data = getData(s);
+                    if (null != data) {
+                        return AesKit.decryptAES((String) data);
+                    }
+                    return "暂时不允许下载";
+                }
+            };
+        }
+        return downloadFimFun;
     }
 
     @NonNull
@@ -156,9 +180,9 @@ public class DataStoreController {
                 public ArrayList<BaseInfoEntity> call(String s) {
                     // TODO 在这里解析列表数据
                     ArrayList<BaseInfoEntity> filmEntities = new ArrayList<>();
-                    String data = (String) getData(s);
+                    Object data = getData(s);
                     if (null != data) {
-                        JSONArray arr = JSON.parseArray(AesKit.decryptAES(data));
+                        JSONArray arr = JSON.parseArray(AesKit.decryptAES((String) data));
                         if (null != arr && arr.size() > 0) {
                             for (int i = 0; i < arr.size(); i++) {
                                 BaseInfoEntity entity = new BaseInfoEntity();

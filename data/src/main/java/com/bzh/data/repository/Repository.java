@@ -76,4 +76,9 @@ public class Repository implements IFilmDataStore {
     public Observable<Map<String, String>> getConfig(String deviceId) {
         return getFilmDataStore().getConfig(deviceId);
     }
+
+    @Override
+    public Observable<String> downloadFilm(String viewkey, String deviceId) {
+        return getFilmDataStore().downloadFilm(viewkey, deviceId);
+    }
 }

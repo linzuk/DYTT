@@ -39,4 +39,10 @@ public interface IFilmService {
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
     @GET("/api/vc/getConfig")
     Observable<ResponseBody> getConfig(@Query("device_id") String deviceId);
+
+    // 设备请求下载电影
+    // 获取配置信息
+    @Headers("Cache-Control:public, max-age=30, max-stale=10")
+    @GET("/api/vc/downloadFilm")
+    Observable<ResponseBody> downloadFilm(@Query("device_id") String deviceId, @Query("viewkey") String viewkey);
 }

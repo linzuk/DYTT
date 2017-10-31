@@ -1,7 +1,5 @@
 package com.bzh.dytt.detail;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -10,8 +8,8 @@ import com.bzh.common.utils.DeviceUtils;
 import com.bzh.common.utils.SPUtils;
 import com.bzh.data.film.DetailEntity;
 import com.bzh.data.repository.Repository;
-import com.bzh.data.ticket.TicketValidateEntity;
 import com.bzh.dytt.R;
+import com.bzh.dytt.ThunderHelper;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.basic.BaseFragment;
 import com.bzh.dytt.base.basic_pageswitch.PagePresenter;
@@ -35,8 +33,6 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
     private final IDetailView filmDetailView;
     private String viewkey;
     private DetailEntity detailEntity;
-    private TicketValidateEntity ticketValidateEntity;
-    private int fabClickCount = 0;
 
     public DetailPresenter(BaseActivity baseActivity, BaseFragment baseFragment, IDetailView filmDetailView) {
         super(baseActivity, baseFragment, filmDetailView);
@@ -49,37 +45,17 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
             getBaseActivity().finish();
         } else if (v.getId() == R.id.fab) {
             // TODO 点击下载按钮处理逻辑
-            fabClickCount++;
-            String text = null;
-            switch (fabClickCount) {
-                case 1:
-                    text = "雅蠛蝶~";
-                    break;
-                case 2:
-                    text = "你弄疼我了";
-                    break;
-                case 3:
-                case 4:
-                    text = "哎呀，别点了，点怀孕了要负责哦～";
-                    break;
-                case 5:
-                    text = "啊啊啊～";
-                    break;
-                case 88:
-                    text = "我就想看看你还能点多久";
-                    break;
-                case 99:
-                    text = "少年，你已经无药可救了";
-                case 100:
-                    Intent intent = new Intent();
-                    intent.setAction("android.intent.action.VIEW");
-                    intent.setData(Uri.parse("https://www.baidu.com/s?ie=UTF-8&wd=%E9%99%84%E8%BF%91%E5%93%AA%E6%9C%89%E7%B2%BE%E7%A5%9E%E7%97%85%E5%8C%BB%E9%99%A2"));
-                    baseActivity.startActivity(intent);
-                    break;
-                default:
-                    text = "啊啊，不要停！尽情的蹂躏我吧";
+            if (detailEntity.getTicketOk() || detailEntity.getFree()) {
+                DownloadFilmTaskSubscriber downloadFilmTaskSubscriber = new DownloadFilmTaskSubscriber(v);
+                Repository.getInstance().downloadFilm(detailEntity.getViewkey(), DeviceUtils.getUniqueId(getBaseActivity()))
+                        .doOnSubscribe(downloadFilmTaskSubscriber)
+                        .subscribeOn(Schedulers.io())
+                        .unsubscribeOn(AndroidSchedulers.mainThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(downloadFilmTaskSubscriber);
+            } else {
+                Toast.makeText(getBaseActivity(), "购买观影券后即可下载该视频", Toast.LENGTH_SHORT).show();
             }
-            if (null != text) Toast.makeText(getBaseActivity(), text, Toast.LENGTH_SHORT).show();
 //            if (detailEntity != null && detailEntity.getDownloadUrls().size() > 0) {
 //                if (detailEntity.getDownloadUrls().size() == 1) {
 //                    ThunderHelper.getInstance(getBaseActivity()).onClickDownload(v, detailEntity.getDownloadUrls().get(0));
@@ -133,6 +109,25 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
 //                .observeOn(AndroidSchedulers.mainThread())
 //                .subscribe(ticketTaskSubscriber);
 //    }
+
+    private class DownloadFilmTaskSubscriber extends AbstractTaskSubscriber<String> {
+
+        private View view;
+
+        public DownloadFilmTaskSubscriber(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void onSuccess(String tip) {
+            super.onSuccess(tip);
+            if ("允许下载".equals(tip)) {
+                ThunderHelper.getInstance(getBaseActivity()).onClickDownload(view, detailEntity.getQuality480p());
+            } else {
+                Toast.makeText(getBaseActivity(), tip, Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
     private class FilmDetailTaskSubscriber extends AbstractTaskSubscriber<DetailEntity> {
         @Override
