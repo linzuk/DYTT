@@ -1,9 +1,9 @@
 package com.bzh.data.repository;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import com.bzh.common.context.GlobalContext;
+import com.bzh.common.utils.SPUtils;
 import com.bzh.common.utils.UrlKit;
 import com.bzh.data.film.IFilmService;
 
@@ -40,7 +40,27 @@ public class RetrofitManager {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
-    private static String baseUrl = null;
+    public static void initBaseUrl() {
+        if (null == SPUtils.getShareData("BASE_URL")) {
+            try {
+                Future<String> future = EXECUTOR.submit(new Callable<String>() {
+                    @Override
+                    public String call() throws Exception {
+                        Document doc = Jsoup.connect("http://www.jianshu.com/users/4fb989f0f0dd/timeline")
+                                .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
+                                .get();
+                        Element div = doc.body().getElementsByClass("js-intro").get(0);
+                        return div.text().trim();
+                    }
+                });
+                String encodeBaseUrl = future.get();
+                String baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
+                SPUtils.putShareData("BASE_URL", baseUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     private RetrofitManager(Context context) {
 
@@ -56,33 +76,12 @@ public class RetrofitManager {
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .cache(cache)
-//                .connectTimeout(30, TimeUnit.SECONDS)
                 .build();
 
-        if (null == baseUrl) {
-            try {
-                Future<String> future = EXECUTOR.submit(new Callable<String>() {
-                    @Override
-                    public String call() throws Exception {
-                        Document doc = Jsoup.connect("http://www.jianshu.com/users/4fb989f0f0dd/timeline")
-                                .header("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")
-                                .get();
-                        Element div = doc.body().getElementsByClass("js-intro").get(0);
-                        return div.text().trim();
-                    }
-                });
-                String encodeBaseUrl = future.get();
-                baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        // TODO 本地测试
-//        baseUrl = "http://192.168.1.108:8080";
+        initBaseUrl();
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
+                .baseUrl(SPUtils.getShareData("BASE_URL"))
                 .addConverterFactory(ScalarsConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient)
