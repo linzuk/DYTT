@@ -122,7 +122,7 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
         public void onSuccess(String tip) {
             super.onSuccess(tip);
             if ("允许下载".equals(tip)) {
-                ThunderHelper.getInstance(getBaseActivity()).onClickDownload(view, detailEntity.getQuality480p());
+                ThunderHelper.getInstance(getBaseActivity()).onClickDownload(view, detailEntity.getDownloadUrl());
             } else {
                 Toast.makeText(getBaseActivity(), tip, Toast.LENGTH_SHORT).show();
             }

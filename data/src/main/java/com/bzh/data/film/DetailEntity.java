@@ -23,6 +23,9 @@ public class DetailEntity {
     private Boolean free;
     private Boolean isTicketOk; // 观影券是否可用
     private Date expireTime; // 观影券到期时间
+    private String previewImageUrl;
+    private String introduction;
+    private String downloadUrl;
 
     public String getViewkey() {
         return viewkey;
@@ -94,5 +97,29 @@ public class DetailEntity {
 
     public void setExpireTime(Date expireTime) {
         this.expireTime = expireTime;
+    }
+
+    public String getPreviewImageUrl() {
+        return previewImageUrl;
+    }
+
+    public void setPreviewImageUrl(String previewImageUrl) {
+        this.previewImageUrl = previewImageUrl;
+    }
+
+    public String getIntroduction() {
+        return introduction;
+    }
+
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
+    }
+
+    public String getDownloadUrl() {
+        return downloadUrl;
+    }
+
+    public void setDownloadUrl(String downloadUrl) {
+        this.downloadUrl = downloadUrl;
     }
 }

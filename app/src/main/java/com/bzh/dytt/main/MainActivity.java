@@ -20,7 +20,6 @@ import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.widget.XViewPager;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import butterknife.Bind;
