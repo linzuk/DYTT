@@ -1,5 +1,6 @@
 package com.bzh.dytt.main;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -14,9 +15,13 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bzh.common.dto.SerializableMap;
 import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.widget.XViewPager;
+
+import java.io.Serializable;
+import java.util.Map;
 
 import butterknife.Bind;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -48,7 +53,12 @@ public class MainActivity extends BaseActivity implements MainIView {
 //        iv_head = (CircleImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_head);
 //        iv_header_view_background = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.iv_header_view_background);
 
-        mainA = new MainPresenter(this, this);
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        SerializableMap map = (SerializableMap) bundle.getSerializable("config");
+        Map<String, String> config = (null == map) ? null : map.getMap();
+
+        mainA = new MainPresenter(this, this, config);
         mainA.onCreate(savedInstanceState);
     }
 

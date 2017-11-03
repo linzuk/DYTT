@@ -59,39 +59,18 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
     private Map<String, BaseFragment> fragments;
     private Map<String, String> config;
 
-    public MainPresenter(BaseActivity baseActivity, MainIView iMainView) {
+    public MainPresenter(BaseActivity baseActivity, MainIView iMainView, Map<String, String> config) {
         this.baseActivity = baseActivity;
         this.iMainView = iMainView;
         fragments = new HashMap<>();
         items = new ArrayList<>();
         items.add(FILM);      // 电影
+        this.config = config;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // 从服务器获取配置信息
-        ConfigSubscriber configSubscriber = new ConfigSubscriber();
-        Repository.getInstance().getConfig(DeviceUtils.getUniqueId(baseActivity))
-                .doOnSubscribe(configSubscriber)
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(AndroidSchedulers.mainThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(configSubscriber);
-    }
-
-
-
-    private class ConfigSubscriber implements Action0, Action1<Map<String, String>> {
-        @Override
-        public void call() {
-
-        }
-
-        @Override
-        public void call(Map<String, String> map) {
-            config = map;
-            updateConfigStatus();
-        }
+        updateConfigStatus();
     }
 
     private void updateConfigStatus() {
@@ -101,10 +80,6 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
         innerPageAdapter = new InnerPageAdapter(baseActivity.getSupportFragmentManager());
         iMainView.initContainer(innerPageAdapter, items.size());
         iMainView.setHeadView(config.get("head_view"));
-        for (String key : config.keySet()) {
-            String value = config.get(key);
-            SPUtils.putShareData(key, value);
-        }
         // 显示一句话
         String show_a_toast = config.get("show_a_toast");
         if (!StringUtil.isBlank(show_a_toast)) {

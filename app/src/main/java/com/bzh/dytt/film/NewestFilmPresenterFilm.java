@@ -16,16 +16,37 @@ import rx.Observable;
  */
 public class NewestFilmPresenterFilm extends BaseFilmInfoPresenter {
 
-    public NewestFilmPresenterFilm(BaseActivity baseActivity, BaseFragment baseFragment, RefreshRecyclerView iView) {
+    private String type;
+    private String title;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public NewestFilmPresenterFilm(BaseActivity baseActivity, BaseFragment baseFragment, RefreshRecyclerView iView, String type, String title) {
         super(baseActivity, baseFragment, iView);
+        setType(type);
+        setTitle(title);
     }
 
     public Observable<ArrayList<BaseInfoEntity>> getRequestListDataObservable(String nextPage) {
-        return Repository.getInstance().getFileList("/video?o=mv&hd=1", Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
+        return Repository.getInstance().getFileList(getType(), Integer.valueOf(nextPage), DeviceUtils.getUniqueId(getBaseActivity()));
     }
 
     @Override
     public String getMaxPage() {
-        return 500 + "";
+        return 1000 + "";
     }
 }

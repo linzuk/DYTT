@@ -129,7 +129,7 @@ public class DetailFragment extends PageFragment implements IDetailView {
         // TODO 设置电影详情页面数据
         collapsingToolbar.setTitle(detailEntity.getVideoTitle());
 
-        film_detail_film.setUp(detailEntity.getQuality480p(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getVideoTitle());
+        film_detail_film.setUp("http://xxjav.bb149.com/m3u8/jav-m3u8/47328/47328.m3u8", JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getVideoTitle());
         film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImageUrl()));
 
         Glide.with(this)

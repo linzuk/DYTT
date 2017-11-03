@@ -1,5 +1,8 @@
 package com.bzh.dytt.film;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.bzh.common.utils.SPUtils;
 import com.bzh.dytt.base.basic.BaseActivity;
 import com.bzh.dytt.base.basic.BaseFragment;
 import com.bzh.dytt.base.basic.IFragmentPresenter;
@@ -13,13 +16,6 @@ import java.util.ArrayList;
  */
 public class FilmMainPresenter extends TabLayoutPresenter implements IFragmentPresenter {
 
-    public static final String NEWEST_FILM = "newest_film";
-    public static final String JAPAN_SOUTH_KOREA_FILM = "japan_south_korea_film";
-    public static final String EUROPE_AMERICA_FILM = "europe_america_film";
-    public static final String COMIC_FILM = "comic_film";
-    public static final String VR_FILM = "vr_film";
-
-
 
     public FilmMainPresenter(BaseActivity baseActivity, BaseFragment baseFragment, TabLayoutFragment filmMainIView) {
         super(baseActivity, baseFragment, filmMainIView);
@@ -27,29 +23,20 @@ public class FilmMainPresenter extends TabLayoutPresenter implements IFragmentPr
 
     @Override
     public BaseFragment newFragment(StripTabItem stripTabItem) {
-        switch (stripTabItem.getType()) {
-            case NEWEST_FILM:
-                return NewestFilmFragment.newInstance();
-            case JAPAN_SOUTH_KOREA_FILM:
-                return JSKFilmFragment.newInstance();
-            case EUROPE_AMERICA_FILM:
-                return EAFilmFragment.newInstance();
-            case COMIC_FILM:
-                return DomesticFilmFragment.newInstance();
-            case VR_FILM:
-                return VRFilmFragment.newInstance();
-        }
-        return NewestFilmFragment.newInstance();
+        return NewestFilmFragment.newInstance(stripTabItem.getType(), stripTabItem.getTitle());
     }
 
     @Override
     public ArrayList<StripTabItem> generateTabs() {
         ArrayList<StripTabItem> items = new ArrayList<>();
-        items.add(new StripTabItem(NEWEST_FILM, "热门"));
-        items.add(new StripTabItem(JAPAN_SOUTH_KOREA_FILM, "日韩"));
-        items.add(new StripTabItem(EUROPE_AMERICA_FILM, "欧美"));
-        items.add(new StripTabItem(COMIC_FILM, "动漫"));
-        items.add(new StripTabItem(VR_FILM, "VR"));
+        String json = SPUtils.getShareData("film_category");
+        JSONArray array = JSONArray.parseArray(json);
+        for (int i = 0; i < array.size(); i++) {
+            JSONObject obj = array.getJSONObject(i);
+            String type = obj.getString("type");
+            String title = obj.getString("title");
+            items.add(new StripTabItem(type, title));
+        }
         return items;
     }
 }

@@ -8,6 +8,7 @@ import com.bzh.common.utils.UrlKit;
 import com.bzh.data.film.IFilmService;
 
 import org.jsoup.Jsoup;
+import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
@@ -40,8 +41,9 @@ public class RetrofitManager {
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
 
-    public static void initBaseUrl() {
-        if (null == SPUtils.getShareData("BASE_URL")) {
+    public static String initBaseUrl() {
+        String baseUrl = SPUtils.getShareData("BASE_URL");
+        if (null == baseUrl || "".equals(baseUrl)) {
             try {
                 Future<String> future = EXECUTOR.submit(new Callable<String>() {
                     @Override
@@ -54,12 +56,13 @@ public class RetrofitManager {
                     }
                 });
                 String encodeBaseUrl = future.get();
-                String baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
+                baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
                 SPUtils.putShareData("BASE_URL", baseUrl);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
+        return baseUrl;
     }
 
     private RetrofitManager(Context context) {
