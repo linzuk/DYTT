@@ -32,12 +32,12 @@ public interface IFilmService {
 
     // 验证电影券能不能用
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
-    @GET("/api/vc/validateTicket")
+    @GET("/api/vc/validateTicketV2")
     Observable<ResponseBody> validateTicket(@Query("ticket") String ticket, @Query("device_id") String deviceId);
 
     // 获取配置信息
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
-    @GET("/api/vc/getConfig")
+    @GET("/api/vc/getConfigV2")
     Observable<ResponseBody> getConfig(@Query("device_id") String deviceId);
 
     // 设备请求下载电影

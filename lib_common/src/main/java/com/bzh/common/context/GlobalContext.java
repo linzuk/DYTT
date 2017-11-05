@@ -1,6 +1,6 @@
 package com.bzh.common.context;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 
 /**
  * ==========================================================<br>
@@ -12,7 +12,7 @@ import android.app.Application;
  * <b>修订历史</b>：　<br>
  * ==========================================================<br>
  */
-public class GlobalContext extends Application {
+public class GlobalContext extends MultiDexApplication {
 
     private static GlobalContext _context;
 

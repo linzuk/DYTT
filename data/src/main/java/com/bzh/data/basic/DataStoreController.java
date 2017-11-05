@@ -132,7 +132,7 @@ public class DataStoreController {
                     Date expireTime = null;
                     Object data = getData(s);
                     if (null != data) {
-                        JSONObject obj = JSON.parseObject(JSON.toJSONString(data));
+                        JSONObject obj = JSON.parseObject(AesKit.decryptAES((String) data));
                         Boolean ok = obj.getBoolean("is_ticket_ok");
                         expireTime = obj.getDate("expire_time");
                         isTicketOk = (null != ok) && ok;
@@ -157,7 +157,7 @@ public class DataStoreController {
                     Map<String, String> configs = new HashMap<>();
                     Object data = getData(s);
                     if (null != data) {
-                        JSONArray arr = JSON.parseArray(JSON.toJSONString(data));
+                        JSONArray arr = JSON.parseArray(AesKit.decryptAES((String) data));
                         if (null != arr && arr.size() > 0) {
                             for (int i = 0; i < arr.size(); i++) {
                                 JSONObject obj = arr.getJSONObject(i);
@@ -315,8 +315,7 @@ public class DataStoreController {
                             @Override
                             public void call(Entity entity) {
                                 MyLog.json(gson.toJson(entity));
-                                Observable.just(entity)
-                                        .subscribe(subscriber);
+                                Observable.just(entity).subscribe(subscriber);
                             }
                         }, getOnErrorProcess(subscriber));
             }

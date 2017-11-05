@@ -5,10 +5,11 @@ android {
     buildToolsVersion '25.0.2'
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 26
+        minSdkVersion 14
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -21,4 +22,6 @@ android {
 dependencies {
     compile project(':lib_log')
     compile project(':lib_recycler')
+
+    compile 'com.android.support:multidex:1.0.1'
 }
