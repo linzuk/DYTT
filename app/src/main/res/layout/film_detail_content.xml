@@ -21,10 +21,11 @@
                 android:orientation="vertical">
 
                 <!-- 视频 -->
-                <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+                <com.bzh.dytt.base.videoplayer.MyVideoPlayer
                     android:id="@+id/film_detail_film"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"/>
+                    android:layout_height="200dp"
+                    android:visibility="invisible"/>
 
                 <!-- 观影券 -->
                 <LinearLayout
@@ -33,7 +34,8 @@
                     android:background="#fff"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:visibility="invisible">
                     <FrameLayout
                         android:id="@+id/film_preview_layout"
                         android:layout_width="match_parent"

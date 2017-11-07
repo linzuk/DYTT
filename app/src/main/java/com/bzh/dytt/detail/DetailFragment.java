@@ -31,7 +31,7 @@ import java.util.Date;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+import cn.jzvd.JZVideoPlayerStandard;
 
 public class DetailFragment extends PageFragment implements IDetailView {
 
@@ -68,7 +68,7 @@ public class DetailFragment extends PageFragment implements IDetailView {
 
     // 视频播放器
     @Bind(R.id.film_detail_film)
-    JCVideoPlayerStandard film_detail_film;
+    JZVideoPlayerStandard film_detail_film;
 
     // 输入电影票控件
     @Bind(R.id.input_ticket_layout)
@@ -138,8 +138,11 @@ public class DetailFragment extends PageFragment implements IDetailView {
         collapsingToolbar.setTitle(detailEntity.getVideoTitle());
         film_detail_content.setText(detailEntity.getIntroduction());
 
-        film_detail_film.setUp(detailEntity.getQuality480p(), JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getVideoTitle());
-        film_detail_film.thumbImageView.setImageURI(Uri.parse(detailEntity.getImageUrl()));
+        film_detail_film.setUp(detailEntity.getQuality480p(), JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getVideoTitle());
+
+        Glide.with(this)
+                .load(detailEntity.getImageUrl())
+                .into(film_detail_film.thumbImageView);
 
         Glide.with(this)
                 .load(detailEntity.getImageUrl())

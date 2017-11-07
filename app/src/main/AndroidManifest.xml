@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bzh.dytt">
 
-    <uses-sdk android:minSdkVersion="14" tools:overrideLibrary="fm.jiecao.jcvideoplayer_lib" />
+    <uses-sdk android:minSdkVersion="14" tools:overrideLibrary="cn.jzvd" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />

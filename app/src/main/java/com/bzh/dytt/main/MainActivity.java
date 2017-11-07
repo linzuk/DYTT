@@ -23,8 +23,8 @@ import com.bzh.dytt.base.widget.XViewPager;
 import java.util.Map;
 
 import butterknife.Bind;
+import cn.jzvd.JZVideoPlayer;
 import de.hdodenhof.circleimageview.CircleImageView;
-import fm.jiecao.jcvideoplayer_lib.JCVideoPlayer;
 
 public class MainActivity extends BaseActivity implements MainIView {
 
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements MainIView {
 
     @Override
     public void onBackPressed() {
-        if (JCVideoPlayer.backPress()) {
+        if (JZVideoPlayer.backPress()) {
             return;
         }
         if (drawer.isDrawerOpen(GravityCompat.START)) {
