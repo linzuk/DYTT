@@ -1,5 +1,6 @@
 package com.bzh.dytt.detail;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -133,7 +134,7 @@ public class DetailFragment extends PageFragment implements IDetailView {
     }
 
     @Override
-    public void setFilmDetail(DetailEntity detailEntity) {
+    public void setFilmDetail(final DetailEntity detailEntity) {
         // TODO 设置电影详情页面数据
         collapsingToolbar.setTitle(detailEntity.getVideoTitle());
         film_detail_content.setText(detailEntity.getIntroduction());
@@ -144,9 +145,24 @@ public class DetailFragment extends PageFragment implements IDetailView {
                 .load(detailEntity.getImageUrl())
                 .into(film_detail_film.thumbImageView);
 
-        Glide.with(this)
-                .load(detailEntity.getImageUrl())
-                .into(filmPoster);
+        if (StringUtil.isBlank(detailEntity.getAdImage())) { // 海报图
+            Glide.with(this)
+                    .load(detailEntity.getImageUrl())
+                    .into(filmPoster);
+        } else { // 广告图
+            Glide.with(this)
+                    .load(detailEntity.getAdImage())
+                    .into(filmPoster);
+            filmPoster.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent();
+                    intent.setAction("android.intent.action.VIEW");
+                    intent.setData(Uri.parse(detailEntity.getAdUrl()));
+                    getBaseActivity().startActivity(intent);
+                }
+            });
+        }
 
         Glide.with(this)
                 .load(detailEntity.getImageUrl())

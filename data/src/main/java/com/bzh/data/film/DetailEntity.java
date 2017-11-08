@@ -26,6 +26,8 @@ public class DetailEntity {
     private String previewImageUrl;
     private String introduction;
     private String downloadUrl;
+    private String adImage;
+    private String adUrl;
 
     public String getViewkey() {
         return viewkey;
@@ -121,5 +123,21 @@ public class DetailEntity {
 
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl;
+    }
+
+    public String getAdImage() {
+        return adImage;
+    }
+
+    public void setAdImage(String adImage) {
+        this.adImage = adImage;
+    }
+
+    public String getAdUrl() {
+        return adUrl;
+    }
+
+    public void setAdUrl(String adUrl) {
+        this.adUrl = adUrl;
     }
 }

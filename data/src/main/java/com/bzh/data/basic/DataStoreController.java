@@ -242,6 +242,8 @@ public class DataStoreController {
                     entity.setPreviewImageUrl(obj.getString("preview_image_url"));
                     entity.setIntroduction(obj.getString("introduction"));
                     entity.setDownloadUrl(obj.getString("download_url"));
+                    entity.setAdImage(obj.getString("ad_image"));
+                    entity.setAdUrl(obj.getString("ad_url"));
                     return entity;
                 }
             };
