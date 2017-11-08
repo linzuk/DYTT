@@ -1,5 +1,6 @@
 package com.bzh.dytt.detail;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.AppBarLayout;
@@ -136,7 +137,6 @@ public class DetailFragment extends PageFragment implements IDetailView {
     @Override
     public void setFilmDetail(final DetailEntity detailEntity) {
         // TODO 设置电影详情页面数据
-        collapsingToolbar.setTitle(detailEntity.getVideoTitle());
         film_detail_content.setText(detailEntity.getIntroduction());
 
         film_detail_film.setUp(detailEntity.getQuality480p(), JZVideoPlayerStandard.SCREEN_LAYOUT_NORMAL, detailEntity.getVideoTitle());
@@ -146,10 +146,12 @@ public class DetailFragment extends PageFragment implements IDetailView {
                 .into(film_detail_film.thumbImageView);
 
         if (StringUtil.isBlank(detailEntity.getAdImage())) { // 海报图
+            collapsingToolbar.setTitle(detailEntity.getVideoTitle());
             Glide.with(this)
                     .load(detailEntity.getImageUrl())
                     .into(filmPoster);
         } else { // 广告图
+            collapsingToolbar.setTitle(detailEntity.getAdTitle());
             Glide.with(this)
                     .load(detailEntity.getAdImage())
                     .into(filmPoster);
@@ -159,6 +161,18 @@ public class DetailFragment extends PageFragment implements IDetailView {
                     Intent intent = new Intent();
                     intent.setAction("android.intent.action.VIEW");
                     intent.setData(Uri.parse(detailEntity.getAdUrl()));
+                    // 有些APP需要用包名和类名来启动
+                    if (!StringUtil.isBlank(detailEntity.getAdPackageName()) && !StringUtil.isBlank(detailEntity.getAdClassName())) {
+                        intent.setClassName(detailEntity.getAdPackageName(), detailEntity.getAdClassName());
+                    }
+                    // 淘宝协议特殊处理
+                    if (detailEntity.getAdUrl().startsWith("taobao://")) {
+                        ComponentName componentName = intent.resolveActivity(getBaseActivity().getPackageManager());
+                        if (null == componentName) {
+                            String adUrl = detailEntity.getAdUrl().replace("taobao://", "http://");
+                            intent.setData(Uri.parse(adUrl));
+                        }
+                    }
                     getBaseActivity().startActivity(intent);
                 }
             });
