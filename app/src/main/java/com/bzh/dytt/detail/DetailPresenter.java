@@ -32,7 +32,7 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
 
     private final IDetailView filmDetailView;
     private String viewkey;
-    private DetailEntity detailEntity;
+    private DetailEntity detailEntity = null;
 
     public DetailPresenter(BaseActivity baseActivity, BaseFragment baseFragment, IDetailView filmDetailView) {
         super(baseActivity, baseFragment, filmDetailView);
@@ -45,17 +45,22 @@ public class DetailPresenter extends PagePresenter implements View.OnClickListen
             getBaseActivity().finish();
         } else if (v.getId() == R.id.fab) {
             // TODO 点击下载按钮处理逻辑
-            if (detailEntity.getTicketOk() || detailEntity.getFree()) {
-                DownloadFilmTaskSubscriber downloadFilmTaskSubscriber = new DownloadFilmTaskSubscriber(v);
-                Repository.getInstance().downloadFilm(detailEntity.getViewkey(), DeviceUtils.getUniqueId(getBaseActivity()))
-                        .doOnSubscribe(downloadFilmTaskSubscriber)
-                        .subscribeOn(Schedulers.io())
-                        .unsubscribeOn(AndroidSchedulers.mainThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(downloadFilmTaskSubscriber);
+            if (null != detailEntity) {
+                if (detailEntity.getTicketOk() || detailEntity.getFree()) {
+                    DownloadFilmTaskSubscriber downloadFilmTaskSubscriber = new DownloadFilmTaskSubscriber(v);
+                    Repository.getInstance().downloadFilm(detailEntity.getViewkey(), DeviceUtils.getUniqueId(getBaseActivity()))
+                            .doOnSubscribe(downloadFilmTaskSubscriber)
+                            .subscribeOn(Schedulers.io())
+                            .unsubscribeOn(AndroidSchedulers.mainThread())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(downloadFilmTaskSubscriber);
+                } else {
+                    Toast.makeText(getBaseActivity(), "购买观影券后即可下载该视频", Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(getBaseActivity(), "购买观影券后即可下载该视频", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseActivity(), "数据加载中，请稍后再试", Toast.LENGTH_SHORT).show();
             }
+
 //            if (detailEntity != null && detailEntity.getDownloadUrls().size() > 0) {
 //                if (detailEntity.getDownloadUrls().size() == 1) {
 //                    ThunderHelper.getInstance(getBaseActivity()).onClickDownload(v, detailEntity.getDownloadUrls().get(0));
