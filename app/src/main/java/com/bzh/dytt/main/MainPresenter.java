@@ -84,6 +84,11 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
         String show_a_toast = config.get("show_a_toast");
         if (!StringUtil.isBlank(show_a_toast)) {
             Toast.makeText(baseActivity, show_a_toast, Toast.LENGTH_LONG);
+            new AlertDialog.Builder(baseActivity)
+                    .setTitle("系统提示")
+                    .setMessage(show_a_toast)
+                    .setPositiveButton("确定", null)
+                    .show();
         }
         // 检查更新
         String version = getVersionName();
