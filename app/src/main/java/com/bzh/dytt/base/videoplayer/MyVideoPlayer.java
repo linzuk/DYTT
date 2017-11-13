@@ -5,6 +5,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bzh.dytt.R;
 
@@ -111,6 +112,12 @@ public class MyVideoPlayer extends JZVideoPlayerStandard {
                 });
             }
         }
+    }
+
+    @Override
+    public void onStateError() {
+        super.onStateError();
+        Toast.makeText(getContext(), "在线播放失败，请下载观看！", Toast.LENGTH_LONG).show();
     }
 
 

@@ -1,6 +1,7 @@
 package com.bzh.dytt.main;
 
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -157,14 +158,24 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         int id = item.getItemId();
+        Intent intent = new Intent();
         switch (id) {
-            case R.id.nav_copy:
-                ClipboardManager cm = (ClipboardManager) baseActivity.getSystemService(Context.CLIPBOARD_SERVICE);
-                cm.setText(SPUtils.getShareData("app_download_url"));
-                Toast.makeText(baseActivity, "已经复制app下载地址，赶快分享给你到好基友吧 ^_^", Toast.LENGTH_LONG).show();
+            case R.id.nav_share:
+                // 拷贝下载链接
+//                ClipboardManager cm = (ClipboardManager) baseActivity.getSystemService(Context.CLIPBOARD_SERVICE);
+//                cm.setText(SPUtils.getShareData("app_download_url"));
+//                Toast.makeText(baseActivity, "已经复制app下载地址，赶快分享给你到好基友吧 ^_^", Toast.LENGTH_LONG).show();
+
+                // 分享app
+//                ComponentName comp = new ComponentName("com.tencent.mm","com.tencent.mm.ui.tools.ShareImgUI");
+//                intent2.setComponent(comp);
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, SPUtils.getShareData("share_text"));
+                baseActivity.startActivity(intent);
                 break;
             case R.id.nav_buy:
-                Intent intent = new Intent();
                 intent.setAction("android.intent.action.VIEW");
                 intent.setData(Uri.parse(SPUtils.getShareData("shop_url")));
                 baseActivity.startActivity(intent);
