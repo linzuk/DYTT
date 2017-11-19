@@ -14,7 +14,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 6
-        versionName "2017.11.10"
+        versionName "2017.11.20"
         multiDexEnabled true
 
         // 多渠道
