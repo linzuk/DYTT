@@ -3,12 +3,10 @@ package com.bzh.dytt.film;
 import android.graphics.Bitmap;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bzh.common.utils.UIUtils;
 import com.bzh.data.basic.BaseInfoEntity;
 import com.bzh.dytt.R;
 import com.bzh.dytt.base.basic.BaseActivity;
@@ -53,7 +51,8 @@ public abstract class BaseFilmInfoPresenter extends RefreshRecyclerPresenter<Bas
                     tag2.setImageResource(R.mipmap.ic_free);
                     tag2.setVisibility(View.VISIBLE);
                 } else { // VIP
-
+                    tag2.setImageResource(R.mipmap.ic_vip);
+                    tag2.setVisibility(View.VISIBLE);
                 }
 
                 final ImageView imageView = viewHolder.getView(R.id.img_file_image);

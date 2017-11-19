@@ -40,10 +40,11 @@ public class RetrofitManager {
     private static RetrofitManager retrofitManager;
 
     private static final ExecutorService EXECUTOR = Executors.newSingleThreadExecutor();
+    private static boolean isNotInitBaseUrl = true; // 主要是用来避免多次解析服务器地址，丢掉也无所谓所以放内存里
 
     public static String initBaseUrl() {
         String baseUrl = SPUtils.getShareData("BASE_URL");
-        if (null == baseUrl || "".equals(baseUrl)) {
+        if (isNotInitBaseUrl) {
             try {
                 Future<String> future = EXECUTOR.submit(new Callable<String>() {
                     @Override
@@ -58,6 +59,7 @@ public class RetrofitManager {
                 String encodeBaseUrl = future.get();
                 baseUrl = UrlKit.decodeUrl(encodeBaseUrl);
                 SPUtils.putShareData("BASE_URL", baseUrl);
+                isNotInitBaseUrl = false;
             } catch (Exception e) {
                 e.printStackTrace();
             }
