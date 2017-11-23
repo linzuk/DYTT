@@ -55,25 +55,10 @@ public abstract class BaseFilmInfoPresenter extends RefreshRecyclerPresenter<Bas
                     tag2.setVisibility(View.VISIBLE);
                 }
 
-                final ImageView imageView = viewHolder.getView(R.id.img_file_image);
+                ImageView imageView = viewHolder.getView(R.id.img_file_image);
                 Glide.with(getContext())
                         .load(item.getImageUrl())
-                        .asBitmap()
-                        .into(new BitmapImageViewTarget(imageView) {
-                            @Override
-                            protected void setResource(Bitmap resource) {
-                                super.setResource(resource);
-//                                int width = resource.getWidth();
-//                                int height = resource.getHeight();
-//                                float ratio = width * 1.0F / height;
-//                                float targetHeight = UIUtils.getScreenWidth() * 1.0F / ratio;
-
-//                                ViewGroup.LayoutParams params = imageView.getLayoutParams();
-//                                params.height = (int) targetHeight;
-//                                imageView.setLayoutParams(params);
-                                imageView.setImageBitmap(resource);
-                            }
-                        });
+                        .into(imageView);
             }
         };
     }

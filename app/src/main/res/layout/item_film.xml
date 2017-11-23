@@ -20,7 +20,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:src="@drawable/ic_film"
-            android:layout_marginLeft="10dp" />
+            android:layout_marginLeft="10dp"
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -30,6 +31,7 @@
             android:orientation="vertical"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@+id/img_file_image"
+            android:layout_toRightOf="@+id/img_file_image"
             android:id="@+id/linearLayout">
 
             <TextView
@@ -64,7 +66,9 @@
             android:orientation="horizontal"
             android:layout_alignBottom="@+id/linearLayout"
             android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp">
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp">
             <ImageView
                 android:id="@+id/iv_item_tag1"
                 android:layout_width="32dp"
