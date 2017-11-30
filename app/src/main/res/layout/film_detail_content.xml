@@ -21,10 +21,19 @@
                 android:orientation="vertical">
 
                 <!-- 视频 -->
-                <com.bzh.dytt.base.videoplayer.MyVideoPlayer
+                <com.bzh.xmw.base.videoplayer.MyVideoPlayer
                     android:id="@+id/film_detail_film"
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
+                    android:visibility="invisible"/>
+                <TextView
+                    android:id="@+id/tv_play_tip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:textColor="#EEE00000"
+                    android:textSize="10sp"
+                    android:text="[提示：受网络波动影响，在线播放不稳定，推荐使用下载功能]"
                     android:visibility="invisible"/>
 
                 <!-- 观影券 -->

@@ -10,7 +10,7 @@ android {
     buildToolsVersion '25.0.0'
 
     defaultConfig {
-        applicationId "com.bzh.dytt"
+        applicationId "com.bzh.xmw"
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 6
@@ -38,7 +38,7 @@ android {
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = "avtt_${defaultConfig.versionName}.apk"
+                def fileName = "xmw_${defaultConfig.versionName}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }

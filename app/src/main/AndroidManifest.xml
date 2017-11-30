@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bzh.dytt">
+    package="com.bzh.xmw">
 
     <uses-sdk android:minSdkVersion="14" tools:overrideLibrary="cn.jzvd" />
 
@@ -11,14 +11,14 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <application
-        android:name=".MyApplicatioin"
+        android:name="com.bzh.xmw.MyApplicatioin"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".main.LaunchActivity"
+            android:name="com.bzh.xmw.main.LaunchActivity"
             android:label="@string/app_name"
             android:theme="@style/StartTheme">
             <intent-filter>
@@ -29,13 +29,13 @@
         </activity>
 
         <activity
-            android:name=".main.MainActivity"
+            android:name="com.bzh.xmw.main.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
-            android:name=".base.basic.FragmentContainerActivity"
+            android:name="com.bzh.xmw.base.basic.FragmentContainerActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
