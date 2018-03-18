@@ -14,7 +14,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 6
-        versionName "2017.11.20"
+        versionName "3.9"
         multiDexEnabled true
 
         // 多渠道
@@ -38,7 +38,7 @@ android {
         variant.outputs.each { output ->
             def outputFile = output.outputFile
             if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                def fileName = "xmw_${defaultConfig.versionName}.apk"
+                def fileName = "小木屋v${defaultConfig.versionName}.apk"
                 output.outputFile = new File(outputFile.parent, fileName)
             }
         }
