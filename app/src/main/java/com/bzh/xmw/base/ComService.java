@@ -109,6 +109,7 @@ public class ComService {
     }
 
     public static void checkShareTime(Activity activity) {
+        int needShareCount = ComService.getNeedShareCount();
         long startShareTime = SPUtils.getLongShareData(D.START_SHARE_TIME, 0);
         SPUtils.putLongShareData(D.START_SHARE_TIME, 0);
         if (startShareTime > 0) {
@@ -118,7 +119,7 @@ public class ComService {
                 ToastKit.showToast(activity, "取消分享或者分享同一个群是没用的哦！");
             } else {
                 int shareCount = shareCountPlusOne();
-                if (shareCount <= 5) ToastKit.showToast(activity, "成功分享"+shareCount+"次");
+                if (shareCount <= needShareCount) ToastKit.showToast(activity, "成功分享"+shareCount+"次");
             }
         }
     }
