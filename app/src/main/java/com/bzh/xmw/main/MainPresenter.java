@@ -14,8 +14,12 @@ import android.support.v7.app.AlertDialog;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.bzh.common.context.D;
 import com.bzh.common.utils.SPUtils;
+import com.bzh.common.utils.ToastKit;
+import com.bzh.log.Util;
 import com.bzh.xmw.R;
+import com.bzh.xmw.base.ComService;
 import com.bzh.xmw.base.basic.BaseActivity;
 import com.bzh.xmw.base.basic.BaseFragment;
 import com.bzh.xmw.base.basic.IActivityPresenter;
@@ -50,6 +54,9 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
     private Map<String, BaseFragment> fragments;
     private Map<String, String> config;
 
+    // 提示每日分享的对话框
+    private static AlertDialog tipShareDialog = null;
+
     public MainPresenter(BaseActivity baseActivity, MainIView iMainView, Map<String, String> config) {
         this.baseActivity = baseActivity;
         this.iMainView = iMainView;
@@ -61,7 +68,7 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        updateConfigStatus();
+
     }
 
     private void updateConfigStatus() {
@@ -100,7 +107,11 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
                     .setNegativeButton("否", null)
                     .show();
         }
+        // 检查今日是否分享过了
+//        ComService.checkShare(baseActivity);
     }
+
+
 
     private String getVersionName() {
         try {
@@ -122,12 +133,12 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
 
     @Override
     public void onResume() {
-
+        updateConfigStatus();
     }
 
     @Override
     public void onPause() {
-
+//        ComService.cancelShareDialog();
     }
 
     @Override
@@ -157,18 +168,20 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
 //                Toast.makeText(baseActivity, "已经复制app下载地址，赶快分享给你到好基友吧 ^_^", Toast.LENGTH_LONG).show();
 
                 // 分享app
-//                ComponentName comp = new ComponentName("com.tencent.mm","com.tencent.mm.ui.tools.ShareImgUI");
-//                intent2.setComponent(comp);
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, SPUtils.getShareData("share_text"));
-                baseActivity.startActivity(intent);
+//                intent.setAction(Intent.ACTION_SEND);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                intent.setType("text/plain");
+//                intent.putExtra(Intent.EXTRA_TEXT, SPUtils.getShareData("share_text"));
+//                baseActivity.startActivity(intent);
+
+                // 分享到QQ
+                ComService.shareToQQ(baseActivity);
                 break;
             case R.id.nav_buy:
-                intent.setAction("android.intent.action.VIEW");
-                intent.setData(Uri.parse(SPUtils.getShareData("shop_url")));
-                baseActivity.startActivity(intent);
+//                intent.setAction("android.intent.action.VIEW");
+//                intent.setData(Uri.parse(SPUtils.getShareData("shop_url")));
+//                baseActivity.startActivity(intent);
+                ComService.joinQQGroup(baseActivity);
                 break;
         }
         iMainView.closeDrawer();

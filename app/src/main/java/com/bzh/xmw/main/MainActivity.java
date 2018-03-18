@@ -62,6 +62,18 @@ public class MainActivity extends BaseActivity implements MainIView {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mainA.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mainA.onPause();
+    }
+
+    @Override
     public void setHeaderViewBackground(String url) {
 
     }

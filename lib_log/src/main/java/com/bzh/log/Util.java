@@ -3,6 +3,10 @@ package com.bzh.log;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Util {
 
     public static boolean isEmpty(String line) {
@@ -17,4 +21,7 @@ public class Util {
         }
     }
 
+    public static String todayString() {
+        return new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+    }
 }

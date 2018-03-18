@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.bzh.data.basic.BaseInfoEntity;
 import com.bzh.xmw.R;
+import com.bzh.xmw.base.ComService;
 import com.bzh.xmw.base.basic.BaseActivity;
 import com.bzh.xmw.base.basic.BaseFragment;
 import com.bzh.xmw.base.refresh_recyclerview.RefreshRecyclerPresenter;
@@ -64,7 +65,11 @@ public abstract class BaseFilmInfoPresenter extends RefreshRecyclerPresenter<Bas
     @Override
     public void onItemClick(View view, int position) {
         super.onItemClick(view, position);
-        BaseInfoEntity baseInfoEntity = getCommonAdapter().getData().get(position);
-        DetailFragment.launch(getBaseActivity(), baseInfoEntity.getViewkey());
+
+        boolean ok = ComService.checkShare(getBaseActivity());
+        if (ok) { // 允许看才能进入视频详情页
+            BaseInfoEntity baseInfoEntity = getCommonAdapter().getData().get(position);
+            DetailFragment.launch(getBaseActivity(), baseInfoEntity.getViewkey());
+        }
     }
 }

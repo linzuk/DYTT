@@ -52,6 +52,19 @@ public class SPUtils {
         return sp.getInt(key, 0);
     }
 
+    /**
+     * 获取long
+     */
+    public static long getLongShareData(String key, long defValue) {
+        SharedPreferences sp = GlobalContext.getInstance().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+        return sp.getLong(key, defValue);
+    }
+
+    public static long getLongShareData(String key) {
+        SharedPreferences sp = GlobalContext.getInstance().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+        return sp.getLong(key, 0);
+    }
+
     public static boolean getBooleanShareData(String key) {
         SharedPreferences sp = GlobalContext.getInstance().getSharedPreferences(KEY, Context.MODE_PRIVATE);
         return sp.getBoolean(key, false);
@@ -73,6 +86,13 @@ public class SPUtils {
         SharedPreferences sp = GlobalContext.getInstance().getSharedPreferences(KEY, Context.MODE_PRIVATE);
         Editor et = sp.edit();
         et.putInt(key, value);
+        et.commit();
+    }
+
+    public static void putLongShareData(String key, long value) {
+        SharedPreferences sp = GlobalContext.getInstance().getSharedPreferences(KEY, Context.MODE_PRIVATE);
+        SharedPreferences.Editor et = sp.edit();
+        et.putLong(key, value);
         et.commit();
     }
 

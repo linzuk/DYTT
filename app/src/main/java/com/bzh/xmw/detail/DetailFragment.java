@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bzh.common.utils.SPUtils;
 import com.bzh.data.film.DetailEntity;
 import com.bzh.xmw.R;
+import com.bzh.xmw.base.ComService;
 import com.bzh.xmw.base.basic.BaseActivity;
 import com.bzh.xmw.base.basic.FragmentArgs;
 import com.bzh.xmw.base.basic.FragmentContainerActivity;
@@ -235,5 +236,17 @@ public class DetailFragment extends PageFragment implements IDetailView {
     @OnClick(R.id.fab)
     public void onClickFab(View v) {
         detailPresenter.onClick(v);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+//        ComService.checkShare(getBaseActivity());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+//        ComService.cancelShareDialog();
     }
 }
