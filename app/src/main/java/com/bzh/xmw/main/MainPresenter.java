@@ -68,7 +68,8 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
+        ToastKit.showToast(baseActivity, "系统检测...");
+        ToastKit.showToast(baseActivity, "对不起，您当前无法观看vip内容");
     }
 
     private void updateConfigStatus() {
@@ -107,8 +108,8 @@ public class MainPresenter implements IActivityPresenter, NavigationView.OnNavig
                     .setNegativeButton("否", null)
                     .show();
         }
-        // 检查今日是否分享过了
-//        ComService.checkShare(baseActivity);
+        // 检查今日分享次数
+        ComService.checkShareTime(baseActivity);
     }
 
 

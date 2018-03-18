@@ -61,7 +61,6 @@ public class ComService {
 
     public static boolean checkShare(final Activity activity) {
         int needShareCount = ComService.getNeedShareCount();
-        ComService.checkShareTime(activity);
         int todayShareCount = ComService.getShareCount();
         if (todayShareCount < needShareCount) {
             cancelShareDialog();
@@ -109,7 +108,7 @@ public class ComService {
         return normalDialog;
     }
 
-    private static void checkShareTime(Activity activity) {
+    public static void checkShareTime(Activity activity) {
         long startShareTime = SPUtils.getLongShareData(D.START_SHARE_TIME, 0);
         SPUtils.putLongShareData(D.START_SHARE_TIME, 0);
         if (startShareTime > 0) {
