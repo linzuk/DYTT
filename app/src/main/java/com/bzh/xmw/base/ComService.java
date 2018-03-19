@@ -32,7 +32,8 @@ public class ComService {
                     "下载地址：http://t.cn/RWjbeGC";
         }
         // 分享到QQ
-        return new ShareKit(activity).shareQQFriend("分享给QQ好友", shareText, ShareKit.TEXT, null);
+        return new ShareKit(activity).shareWeChatFriend("分享给微信好友", shareText, ShareKit.TEXT, null);
+//        return new ShareKit(activity).shareQQFriend("分享给QQ好友", shareText, ShareKit.TEXT, null);
     }
 
     public static boolean joinQQGroup(Activity activity) {
