@@ -72,6 +72,7 @@ public class DataStoreController {
     // variable
     private Func1<String, String> downloadFimFun;
     private Func1<String, Map<String, String>> getConfigFun;
+    private Func1<String, Map<String, String>> signUpFun;
     private Func1<ResponseBody, String> transformCharset;
     private Func1<String, ArrayList<BaseInfoEntity>> listFun;
     private Func1<String, DetailEntity> filmDetailFun;
@@ -86,6 +87,11 @@ public class DataStoreController {
     @NonNull
     public Observable<Map<String, String>> getConfigObservable(final Observable<ResponseBody> observable) {
         return getObservable(observable, getTransformCharset(), getConfigFun());
+    }
+
+    @NonNull
+    public Observable<Map<String, String>> signUpObservable(final Observable<ResponseBody> observable) {
+        return getObservable(observable, getTransformCharset(), signUpFun());
     }
 
     @NonNull
@@ -170,6 +176,31 @@ public class DataStoreController {
             };
         }
         return getConfigFun;
+    }
+
+    @NonNull
+    private Func1<String, Map<String, String>> signUpFun() {
+        if (signUpFun == null) {
+            signUpFun = new Func1<String, Map<String, String>>() {
+                @Override
+                public Map<String, String> call(String s) {
+                    // TODO 在这里解析配置数据
+                    Map<String, String> configs = new HashMap<>();
+                    Object data = getData(s);
+                    if (null != data) {
+                        JSONArray arr = JSON.parseArray(AesKit.decryptAES((String) data));
+                        if (null != arr && arr.size() > 0) {
+                            for (int i = 0; i < arr.size(); i++) {
+                                JSONObject obj = arr.getJSONObject(i);
+                                configs.put(obj.getString("k"), obj.getString("v"));
+                            }
+                        }
+                    }
+                    return configs;
+                }
+            };
+        }
+        return signUpFun;
     }
 
     @NonNull

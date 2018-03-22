@@ -31,4 +31,6 @@ public interface IFilmDataStore {
     Observable<Map<String, String>> getConfig(final String deviceId);
 
     Observable<String> downloadFilm(final String viewkey, final String deviceId);
+
+    Observable<Map<String, String>> signUp(final String deviceId, final String inviteCode);
 }

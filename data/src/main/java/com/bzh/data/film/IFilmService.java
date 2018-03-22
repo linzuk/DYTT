@@ -45,4 +45,9 @@ public interface IFilmService {
     @Headers("Cache-Control:public, max-age=30, max-stale=10")
     @GET("/api/vc/downloadFilm")
     Observable<ResponseBody> downloadFilm(@Query("device_id") String deviceId, @Query("viewkey") String viewkey);
+
+    // 用户登入
+    @Headers("Cache-Control:public, max-age=30, max-stale=10")
+    @GET("/api/vc/signUp")
+    Observable<ResponseBody> signUp(@Query("device_id") String deviceId, @Query("invite_code") String inviteCode);
 }

@@ -54,4 +54,9 @@ public class FilmNetWorkDataStore implements IFilmDataStore {
     public Observable<String> downloadFilm(String viewkey, String deviceId) {
         return DataStoreController.getInstance().downloadFilmObservable(iFilmService.downloadFilm(viewkey, deviceId));
     }
+
+    @Override
+    public Observable<Map<String, String>> signUp(final String deviceId, final String inviteCode) {
+        return DataStoreController.getInstance().signUpObservable(iFilmService.signUp(deviceId, inviteCode));
+    }
 }

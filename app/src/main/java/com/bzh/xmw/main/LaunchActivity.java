@@ -10,6 +10,8 @@ import com.bzh.common.utils.SPUtils;
 import com.bzh.data.repository.Repository;
 import com.bzh.data.repository.RetrofitManager;
 
+import org.jsoup.helper.StringUtil;
+
 import java.util.Map;
 
 import rx.android.schedulers.AndroidSchedulers;
@@ -69,12 +71,22 @@ public class LaunchActivity extends Activity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                //跳转至 MainActivity
-                Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
-                intent.putExtra("config", new SerializableMap(config));
-                startActivity(intent);
-                //结束当前的 Activity
-                LaunchActivity.this.finish();
+                String fromInviteCode = config.get("from_invite_code");
+                if (StringUtil.isBlank(fromInviteCode)) {
+                    //跳转至 SignUpActivity
+                    Intent intent = new Intent(LaunchActivity.this, SignUpActivity.class);
+                    intent.putExtra("config", new SerializableMap(config));
+                    startActivity(intent);
+                    //结束当前的 Activity
+                    LaunchActivity.this.finish();
+                } else {
+                    //跳转至 MainActivity
+                    Intent intent = new Intent(LaunchActivity.this, MainActivity.class);
+                    intent.putExtra("config", new SerializableMap(config));
+                    startActivity(intent);
+                    //结束当前的 Activity
+                    LaunchActivity.this.finish();
+                }
             }
         });
     }

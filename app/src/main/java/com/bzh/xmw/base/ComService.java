@@ -1,7 +1,9 @@
 package com.bzh.xmw.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -31,6 +33,7 @@ public class ComService {
             shareText = "这个app能让你兴奋一整天！\n" +
                     "下载地址：http://t.cn/RWjbeGC";
         }
+        shareText += "\n邀请码：" + SPUtils.getShareData("invite_code", "34579231");
         // 分享到QQ
         return new ShareKit(activity).shareWeChatFriend("分享给微信好友", shareText, ShareKit.TEXT, null);
 //        return new ShareKit(activity).shareQQFriend("分享给QQ好友", shareText, ShareKit.TEXT, null);
@@ -136,4 +139,11 @@ public class ComService {
         String needShareCount = SPUtils.getShareData("need_share_count", "5");
         return Integer.parseInt(needShareCount);
     }
+
+    public static void goToActivity(Context context, Class<?> cls) {
+        Intent intent = new Intent(context, cls);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+    }
+
 }
